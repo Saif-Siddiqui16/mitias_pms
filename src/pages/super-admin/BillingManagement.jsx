@@ -196,11 +196,11 @@ const BillingManagement = () => {
                 <Card>
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest font-mono">Monthly Recurring Revenue</p>
-                      <p className="text-3xl font-normal font-serif text-[#111827] mt-1">${metrics.mrr.toLocaleString()}</p>
+                      <p className="text-[#667085] text-[9px] font-bold uppercase tracking-widest font-mono">Monthly Recurring Revenue</p>
+                      <p className="text-3xl font-normal font-serif text-[#111827] mt-1">${(metrics?.mrr || 0).toLocaleString()}</p>
                       <span className="text-[10px] text-emerald-600 font-bold font-mono mt-1 block">Live MRR Ledger</span>
                     </div>
-                    <div className="w-10 h-10 bg-primary-50 text-[#6D4AFF] border border-primary-100 rounded-xl flex items-center justify-center">
+                    <div className="w-10 h-10 bg-purple-50 text-[#6D4AFF] border border-purple-100 rounded-xl flex items-center justify-center">
                       <TrendingUp size={16} />
                     </div>
                   </div>
@@ -209,8 +209,8 @@ const BillingManagement = () => {
                 <Card>
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest font-mono">Cumulative Platform Revenue</p>
-                      <p className="text-3xl font-normal font-serif text-[#111827] mt-1">${metrics.lifetimeRevenue.toLocaleString()}</p>
+                      <p className="text-[#667085] text-[9px] font-bold uppercase tracking-widest font-mono">Cumulative Platform Revenue</p>
+                      <p className="text-3xl font-normal font-serif text-[#111827] mt-1">${(metrics?.lifetimeRevenue || 0).toLocaleString()}</p>
                       <span className="text-[10px] text-slate-400 font-bold font-mono mt-1 block">Settled ACH volume</span>
                     </div>
                     <div className="w-10 h-10 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-xl flex items-center justify-center">
@@ -222,8 +222,8 @@ const BillingManagement = () => {
                 <Card>
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest font-mono">Active Subscriptions</p>
-                      <p className="text-3xl font-normal font-serif text-[#111827] mt-1">{metrics.activeCount}</p>
+                      <p className="text-[#667085] text-[9px] font-bold uppercase tracking-widest font-mono">Active Subscriptions</p>
+                      <p className="text-3xl font-normal font-serif text-[#111827] mt-1">{metrics?.activeCount || 0}</p>
                       <span className="text-[10px] text-slate-400 font-bold font-mono mt-1 block">Live deployments</span>
                     </div>
                     <div className="w-10 h-10 bg-blue-50 text-blue-600 border border-blue-100 rounded-xl flex items-center justify-center">
@@ -235,11 +235,11 @@ const BillingManagement = () => {
                 <Card>
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest font-mono">Failed Payment Alerts</p>
-                      <p className={`text-3xl font-normal font-serif mt-1 ${metrics.failedCount > 0 ? 'text-rose-600 font-bold' : 'text-[#111827]'}`}>{metrics.failedCount}</p>
+                      <p className="text-[#667085] text-[9px] font-bold uppercase tracking-widest font-mono">Failed Payment Alerts</p>
+                      <p className={`text-3xl font-normal font-serif mt-1 ${(metrics?.failedCount || 0) > 0 ? 'text-rose-600 font-bold' : 'text-[#111827]'}`}>{metrics?.failedCount || 0}</p>
                       <span className="text-[10px] text-slate-400 font-bold font-mono mt-1 block">Overdue accounts</span>
                     </div>
-                    <div className={`w-10 h-10 ${metrics.failedCount > 0 ? 'bg-rose-50 text-rose-600 border-rose-100 animate-pulse' : 'bg-slate-50 text-slate-400'} border rounded-xl flex items-center justify-center`}>
+                    <div className={`w-10 h-10 ${(metrics?.failedCount || 0) > 0 ? 'bg-rose-50 text-rose-600 border-rose-100 animate-pulse' : 'bg-slate-50 text-slate-400'} border rounded-xl flex items-center justify-center`}>
                       <AlertOctagon size={16} />
                     </div>
                   </div>
@@ -252,11 +252,11 @@ const BillingManagement = () => {
                   <Card title="Plan tier distributions" subtitle="Analysis of standard plan counts and pricing mix across the platform.">
                     <div className="space-y-6 py-4">
                       {[
-                        { name: 'Starter Tier ($199/mo)', count: metrics.planCounts.Starter || 0, color: 'bg-blue-500' },
-                        { name: 'Professional Tier ($399/mo)', count: (metrics.planCounts.Professional || 0) + (metrics.planCounts.Pro || 0) + (metrics.planCounts.Standard || 0), color: 'bg-primary-500' },
-                        { name: 'Enterprise Tier ($799/mo)', count: metrics.planCounts.Enterprise || 0, color: 'bg-purple-500' }
+                        { name: 'Starter Tier ($199/mo)', count: metrics?.planCounts?.Starter || 0, color: 'bg-blue-500' },
+                        { name: 'Professional Tier ($399/mo)', count: (metrics?.planCounts?.Professional || 0) + (metrics?.planCounts?.Pro || 0) + (metrics?.planCounts?.Standard || 0), color: 'bg-purple-600' },
+                        { name: 'Enterprise Tier ($799/mo)', count: metrics?.planCounts?.Enterprise || 0, color: 'bg-indigo-500' }
                       ].map((tier, idx) => {
-                        const total = metrics.totalSubscriptions || 1;
+                        const total = metrics?.totalSubscriptions || 1;
                         const pct = Math.round((tier.count / total) * 100);
                         return (
                           <div key={idx} className="space-y-2 text-left">
@@ -495,9 +495,10 @@ const BillingManagement = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {plans.map((plan) => {
                   const featureList = plan.features ? plan.features.split(',').map(f => f.trim()) : [];
-                  const activeCount = plan.name === 'Starter' ? metrics.planCounts.Starter || 0 :
-                                      plan.name === 'Professional' || plan.name === 'Pro' || plan.name === 'Standard' ? (metrics.planCounts.Professional || 0) + (metrics.planCounts.Pro || 0) + (metrics.planCounts.Standard || 0) :
-                                      metrics.planCounts[plan.name] || 0;
+                  const planCounts = metrics?.planCounts || {};
+                  const activeCount = plan.name === 'Starter' ? planCounts.Starter || 0 :
+                                      plan.name === 'Professional' || plan.name === 'Pro' || plan.name === 'Standard' ? (planCounts.Professional || 0) + (planCounts.Pro || 0) + (planCounts.Standard || 0) :
+                                      planCounts[plan.name] || 0;
                   return (
                     <Card key={plan.id} className="relative overflow-hidden group border-2 hover:border-[#6D4AFF]/30 transition-all rounded-2xl flex flex-col justify-between h-full bg-white shadow-sm">
                       <div className="space-y-6 text-left">

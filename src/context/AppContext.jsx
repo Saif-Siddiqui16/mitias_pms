@@ -277,15 +277,41 @@ export const AppProvider = ({ children }) => {
       'Settings': { view: true, create: true, edit: true, delete: true },
       'Housekeeping': { view: true, create: true, edit: true, delete: true },
       'Maintenance': { view: true, create: true, edit: true, delete: true },
-      'Users': { view: true, create: true, edit: true, delete: true }
+      'Users': { view: true, create: true, edit: true, delete: true },
+      'Knowledge Base': { view: true, create: true, edit: true, delete: true },
+      'Takeover Queue': { view: true, create: true, edit: true, delete: true },
+      'Activity Logs': { view: true, create: true, edit: true, delete: true },
+      'Billing': { view: true, create: true, edit: true, delete: true }
+    },
+    [ROLES.PLATFORM_OPERATOR]: {
+      'Dashboard': { view: true, create: true, edit: true, delete: true },
+      'Conversations': { view: true, create: true, edit: true, delete: true },
+      'Automation Engine': { view: true, create: true, edit: true, delete: true },
+      'Integrations': { view: true, create: true, edit: true, delete: true },
+      'Transactions': { view: true, create: true, edit: true, delete: true },
+      'Settings': { view: true, create: true, edit: true, delete: true },
+      'Housekeeping': { view: true, create: true, edit: true, delete: true },
+      'Maintenance': { view: true, create: true, edit: true, delete: true },
+      'Users': { view: true, create: true, edit: true, delete: true },
+      'Knowledge Base': { view: true, create: true, edit: true, delete: true },
+      'Takeover Queue': { view: true, create: true, edit: true, delete: true },
+      'Activity Logs': { view: true, create: true, edit: true, delete: true },
+      'Billing': { view: true, create: true, edit: true, delete: true }
     },
     [ROLES.MANAGER]: {
       'Dashboard': { view: true, create: true, edit: true, delete: true },
       'Conversations': { view: true, create: true, edit: true, delete: true },
+      'Automation Engine': { view: true, create: true, edit: true, delete: true },
+      'Integrations': { view: true, create: true, edit: true, delete: true },
+      'Transactions': { view: true, create: true, edit: true, delete: true },
+      'Settings': { view: true, create: true, edit: true, delete: false },
       'Housekeeping': { view: true, create: true, edit: true, delete: true },
       'Maintenance': { view: true, create: true, edit: true, delete: true },
       'Users': { view: true, create: true, edit: true, delete: true },
-      'Settings': { view: true, create: true, edit: true, delete: false }
+      'Knowledge Base': { view: true, create: true, edit: true, delete: true },
+      'Takeover Queue': { view: true, create: true, edit: true, delete: true },
+      'Activity Logs': { view: true, create: true, edit: true, delete: true },
+      'Billing': { view: true, create: true, edit: true, delete: true }
     },
     [ROLES.FRONT_OFFICE]: {
       'Dashboard': { view: true, create: false, edit: false, delete: false },

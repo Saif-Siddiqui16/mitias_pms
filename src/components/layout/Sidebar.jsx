@@ -30,13 +30,13 @@ const platformNav = [
   { name: 'Maintenance', icon: Wrench, path: '/app/maintenance', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.HOTEL_ADMIN, ROLES.FRONT_OFFICE, ROLES.MAINTENANCE_MANAGER, ROLES.MAINTENANCE_STAFF] },
   { name: 'Users', icon: Users, path: '/app/users', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.HOTEL_ADMIN] },
   { name: 'Human Assistance Queue', icon: UserCheck, path: '/app/takeover-queue', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.GUEST_ASSISTANT, ROLES.HOTEL_ADMIN, ROLES.FRONT_OFFICE] },
-  { name: 'AI Workflows', icon: Cpu, path: '/app/automation-engine', roles: [ROLES.PLATFORM_OPERATOR, ROLES.HOTEL_ADMIN] },
+  { name: 'AI Workflows', icon: Cpu, path: '/app/automation-engine', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.HOTEL_ADMIN] },
   { name: 'Hotel Policies & Knowledge', icon: Library, path: '/app/knowledge-base', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.HOTEL_ADMIN] },
   {
     name: 'Subscription & Billing',
     icon: CreditCard,
     path: '/app/subscription-billing',
-    roles: [ROLES.HOTEL_ADMIN, ROLES.PLATFORM_OPERATOR],
+    roles: [ROLES.HOTEL_ADMIN, ROLES.PLATFORM_OPERATOR, ROLES.MANAGER],
     subMenus: [
       { name: 'Overview', path: '/app/subscription-billing?tab=overview' },
       { name: 'Payment History', path: '/app/subscription-billing?tab=history' },
@@ -46,8 +46,8 @@ const platformNav = [
     ]
   },
   { name: 'Activity & Audit Logs', icon: Activity, path: '/app/activity-logs', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.HOTEL_ADMIN] },
-  { name: 'Connected Systems', icon: Server, path: '/app/integrations', roles: [ROLES.PLATFORM_OPERATOR, ROLES.HOTEL_ADMIN] },
-  { name: 'Hotel Settings', icon: Settings, path: '/app/settings', roles: [ROLES.PLATFORM_OPERATOR, ROLES.HOTEL_ADMIN] },
+  { name: 'Connected Systems', icon: Server, path: '/app/integrations', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.HOTEL_ADMIN] },
+  { name: 'Hotel Settings', icon: Settings, path: '/app/settings', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.HOTEL_ADMIN] },
 ];
 
 const superAdminNav = [

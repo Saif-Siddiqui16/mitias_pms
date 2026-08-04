@@ -16,15 +16,20 @@ import {
   ShieldAlert,
   Database,
   Hotel,
-  Lock
+  Lock,
+  Wrench,
+  Sparkles
 } from 'lucide-react';
 import { useApp, ROLES } from '../../context/AppContext';
 import { cn } from '../../utils/cn';
 
 const platformNav = [
-  { name: 'Dashboard', icon: LayoutDashboard, path: '/app', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.HOTEL_ADMIN] },
-  { name: 'Guest Conversations', icon: MessageSquare, path: '/app/conversations', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.GUEST_ASSISTANT, ROLES.HOTEL_ADMIN] },
-  { name: 'Human Assistance Queue', icon: UserCheck, path: '/app/takeover-queue', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.GUEST_ASSISTANT, ROLES.HOTEL_ADMIN] },
+  { name: 'Dashboard', icon: LayoutDashboard, path: '/app', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.HOTEL_ADMIN, ROLES.FRONT_OFFICE, ROLES.HOUSEKEEPING_MANAGER, ROLES.HOUSEKEEPING_STAFF, ROLES.MAINTENANCE_MANAGER, ROLES.MAINTENANCE_STAFF] },
+  { name: 'Guest Conversations', icon: MessageSquare, path: '/app/conversations', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.GUEST_ASSISTANT, ROLES.HOTEL_ADMIN, ROLES.FRONT_OFFICE] },
+  { name: 'Housekeeping', icon: Sparkles, path: '/app/housekeeping', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.HOTEL_ADMIN, ROLES.FRONT_OFFICE, ROLES.HOUSEKEEPING_MANAGER, ROLES.HOUSEKEEPING_STAFF] },
+  { name: 'Maintenance', icon: Wrench, path: '/app/maintenance', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.HOTEL_ADMIN, ROLES.FRONT_OFFICE, ROLES.MAINTENANCE_MANAGER, ROLES.MAINTENANCE_STAFF] },
+  { name: 'Users', icon: Users, path: '/app/users', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.HOTEL_ADMIN] },
+  { name: 'Human Assistance Queue', icon: UserCheck, path: '/app/takeover-queue', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.GUEST_ASSISTANT, ROLES.HOTEL_ADMIN, ROLES.FRONT_OFFICE] },
   { name: 'AI Workflows', icon: Cpu, path: '/app/automation-engine', roles: [ROLES.PLATFORM_OPERATOR, ROLES.HOTEL_ADMIN] },
   { name: 'Hotel Policies & Knowledge', icon: Library, path: '/app/knowledge-base', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.HOTEL_ADMIN] },
   {

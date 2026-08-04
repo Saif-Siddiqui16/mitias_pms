@@ -231,23 +231,33 @@ const LandingPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F7F6F3] text-[#111827] font-sans antialiased selection:bg-purple-950 selection:text-amber-100 relative overflow-x-hidden">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased selection:bg-[#6D4AFF] selection:text-white relative overflow-x-hidden">
       
+      {/* Fixed Luxury Background Image Layer */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 bg-slate-950">
+        <img 
+          src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=2000&q=90" 
+          alt="Luxury Resort Property Management Background"
+          className="absolute inset-0 w-full h-full object-cover opacity-85 scale-100"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-900/40 to-slate-950/65" />
+      </div>
+
       {/* 1. SOPHISTICATED NAVIGATION */}
-      <header className="fixed top-0 left-0 w-full bg-[#F7F6F3]/95 backdrop-blur-md border-b border-[#E7E4DD] z-50 transition-all duration-300 shadow-sm">
+      <header className="fixed top-0 left-0 w-full bg-white border-b border-slate-200 z-50 transition-all duration-300 shadow-sm">
         {/* Editorial Luxury Top Border Gradient */}
-        <div className="h-1 bg-gradient-to-r from-slate-900 via-[#6D4AFF] to-slate-900 w-full" />
+        <div className="h-1 bg-gradient-to-r from-indigo-500 via-[#6D4AFF] to-purple-500 w-full" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between">
           
           {/* Brand Identity */}
-          <div className="flex items-center gap-2 sm:gap-3.5 cursor-pointer shrink-0" onClick={() => navigate('/')}>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 bg-[#0B1020] rounded-lg flex items-center justify-center text-white border border-[#E7E4DD]/10 shrink-0">
-              <Hotel className="text-[#6D4AFF] w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <div className="flex items-center gap-2.5 sm:gap-3.5 cursor-pointer shrink-0" onClick={() => navigate('/')}>
+            <div className="w-9 h-9 sm:w-10 sm:h-10 bg-[#6D4AFF] rounded-xl flex items-center justify-center text-white shrink-0 shadow-md shadow-[#6D4AFF]/30">
+              <Hotel className="w-5 h-5 text-white" />
             </div>
             <div className="flex flex-col text-left">
-              <span className="font-extrabold text-[11.5px] sm:text-[12.5px] tracking-tight text-[#111827] uppercase tracking-wider font-mono">AutoPilot</span>
-              <span className="hidden sm:block text-[7.5px] font-black tracking-widest text-[#667085] uppercase mt-0.5">Guest Orchestration</span>
+              <span className="font-extrabold text-sm sm:text-base tracking-tight text-slate-900 uppercase font-mono">HOTELOGX</span>
+              <span className="hidden sm:block text-[8px] font-extrabold tracking-widest text-[#6D4AFF] uppercase mt-0.5">Property Management System</span>
             </div>
           </div>
 
@@ -264,7 +274,7 @@ const LandingPage = () => {
                 key={item.label} 
                 href={`#${item.id}`}
                 onClick={(e) => scrollToSection(e, item.id)}
-                className="text-[9.5px] font-black uppercase tracking-widest text-[#667085] hover:text-[#111827] transition-all relative py-1"
+                className="text-[10px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-[#6D4AFF] transition-all relative py-1 hover:scale-105"
               >
                 {item.label}
               </a>
@@ -275,13 +285,13 @@ const LandingPage = () => {
           <div className="flex items-center gap-3 sm:gap-5 shrink-0">
             <button 
               onClick={() => navigate('/login')}
-              className="text-[8.5px] sm:text-[9.5px] font-black uppercase tracking-widest text-[#111827] hover:opacity-80 transition-all cursor-pointer px-1.5 py-1 hover:bg-slate-200/40 rounded-md"
+              className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-[#6D4AFF] transition-all cursor-pointer px-3.5 py-2 bg-slate-100 hover:bg-slate-200/80 rounded-xl border border-slate-200/80"
             >
               Sign In
             </button>
             <button 
               onClick={(e) => openOnboardingModal(e)}
-              className="px-3.5 py-2.5 sm:px-5 sm:py-3 bg-[#0B1020] hover:bg-slate-900 text-white rounded-lg text-[8.5px] sm:text-[9.5px] font-black uppercase tracking-widest border border-[#E7E4DD]/10 transition-all shadow-sm cursor-pointer whitespace-nowrap"
+              className="px-4 py-2.5 sm:px-6 sm:py-3 bg-[#6D4AFF] hover:bg-[#5B3CEE] text-white rounded-xl text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest border border-white/20 transition-all shadow-md shadow-[#6D4AFF]/25 cursor-pointer whitespace-nowrap"
             >
               Get Started
             </button>
@@ -290,73 +300,77 @@ const LandingPage = () => {
       </header>
 
       {/* 2. HERO SECTION */}
-      <section className="max-w-7xl mx-auto px-6 sm:px-8 pt-32 sm:pt-36 pb-16 sm:pb-32 grid lg:grid-cols-12 gap-10 lg:gap-8 items-center relative z-10 text-left">
+      <section className="max-w-7xl mx-auto px-6 sm:px-8 pt-32 sm:pt-36 pb-16 sm:pb-28 grid lg:grid-cols-12 gap-10 lg:gap-8 items-center relative z-10 text-left">
         
         {/* Left Headline Column */}
-        <div className="lg:col-span-6 space-y-6 sm:space-y-8 order-2 lg:order-1 mt-8 lg:mt-0">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#6D4AFF]/10 text-[#6D4AFF] rounded-full border border-[#6D4AFF]/20 text-[9px] font-bold uppercase tracking-wider font-mono">
-            <Sparkles size={10} />
-            <span>Direct PMS Integration</span>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="lg:col-span-6 space-y-6 sm:space-y-8 order-2 lg:order-1 mt-8 lg:mt-0"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-slate-900/80 text-purple-300 rounded-full border border-purple-400/40 text-[9.5px] font-extrabold uppercase tracking-wider font-mono shadow-lg backdrop-blur-sm">
+            <Sparkles size={12} className="text-amber-400 animate-pulse" />
+            <span>Direct PMS & AI Integration</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-normal text-[#111827] tracking-tight leading-[1.08] font-serif">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.1] drop-shadow-md">
             Manage guest communication <br className="hidden sm:block" />
-            <span className="italic font-light text-[#6D4AFF]">automatically with AI</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-indigo-200 to-white font-serif italic">automatically with AI.</span>
           </h1>
 
-          <p className="text-[#667085] text-xs sm:text-sm leading-relaxed max-w-lg font-medium">
-            Connect your hotel system and let AI handle guest requests, bookings, upgrades, and support automatically.
+          <p className="text-slate-100 text-xs sm:text-sm leading-relaxed max-w-lg font-semibold drop-shadow-sm">
+            Connect your Hotelogx system and let AI handle guest requests, room upgrades, housekeeping, and real-time revenue opportunities effortlessly.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 sm:pt-3">
             <button 
               onClick={(e) => openOnboardingModal(e)}
-              className="px-5 py-3 sm:px-7 sm:py-4 bg-[#0B1020] text-white hover:bg-slate-900 font-bold text-[9.5px] uppercase tracking-widest rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm border border-slate-800 cursor-pointer"
+              className="px-6 py-3.5 sm:px-8 sm:py-4 bg-[#6D4AFF] text-white hover:bg-[#5B3CEE] font-extrabold text-[10px] uppercase tracking-widest rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#6D4AFF]/30 border border-white/20 cursor-pointer hover:scale-105"
             >
               Get Started
-              <ArrowRight size={11} />
+              <ArrowRight size={13} />
             </button>
             <a 
               href="#workflow"
               onClick={(e) => scrollToSection(e, 'workflow')}
-              className="px-5 py-3 sm:px-7 sm:py-4 bg-white hover:bg-[#FAF9F6] text-[#111827] font-bold text-[9.5px] uppercase tracking-widest rounded-xl border border-[#E7E4DD] transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+              className="px-6 py-3.5 sm:px-8 sm:py-4 bg-white hover:bg-slate-100 text-slate-800 font-extrabold text-[10px] uppercase tracking-widest rounded-xl border border-slate-200/80 transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer hover:scale-105"
             >
               See How It Works
             </a>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Right Dashboard Mockup Column */}
+        {/* Right Dashboard Mockup Column - KEEP PHOTO INTACT */}
         <div className="lg:col-span-6 relative lg:pl-8 order-1 lg:order-2">
-          <div className="absolute inset-4 bg-[#6D4AFF]/5 blur-[80px] rounded-3xl" />
           
           <motion.div 
-            animate={{ y: [0, -8, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="relative bg-white rounded-3xl border border-[#E7E4DD] p-3 shadow-xl overflow-hidden group"
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            className="relative bg-white rounded-3xl border border-slate-200/90 p-3 shadow-2xl overflow-hidden group hover:shadow-[0_0_35px_rgba(109,74,255,0.25)] transition-all duration-500"
           >
-            <div className="relative rounded-2xl overflow-hidden bg-[#FAF9F6]">
+            <div className="relative rounded-2xl overflow-hidden bg-slate-950">
               <img 
                 src="/luxury_hotel_ai_showcase.png" 
                 alt="Luxury Hotel AI Automation" 
                 className="w-full h-auto object-cover rounded-2xl transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0B1020]/80 via-transparent to-transparent opacity-90 flex flex-col justify-end p-6 text-white text-left">
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0B1020] via-transparent to-transparent opacity-95 flex flex-col justify-end p-6 text-white text-left">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                  <span className="text-[9px] font-black tracking-widest text-emerald-300 uppercase font-mono">Live AI Sync</span>
+                  <span className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse shadow-lg shadow-emerald-500/50" />
+                  <span className="text-[9.5px] font-black tracking-widest text-emerald-400 uppercase font-mono">Live Hotelogx AI Sync</span>
                 </div>
-                <h4 className="text-lg font-serif font-bold tracking-tight">The Luminary Grand Resort</h4>
-                <p className="text-xs text-slate-200 font-medium mt-1">Autonomous Room Automation & Guest Orchestration Active</p>
+                <h4 className="text-xl font-bold tracking-tight text-white font-serif">The Luminary Mercier Resort</h4>
+                <p className="text-xs text-slate-300 font-medium mt-1">Autonomous Room Automation & Guest Orchestration Active</p>
               </div>
             </div>
 
-            {/* floating telemetry badge */}
-            <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-md p-4 rounded-xl border border-[#E7E4DD] shadow-lg max-w-[160px] text-left space-y-1 hidden sm:block z-20">
-              <span className="text-[7.5px] font-black text-[#667085] uppercase tracking-widest font-mono">Core Gateway</span>
-              <p className="text-xs font-black text-[#111827]">Active Link</p>
-              <span className="text-[8px] text-emerald-600 font-black flex items-center gap-1 font-mono">
-                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" /> Uptime 99.99%
+            {/* Floating Telemetry Badge */}
+            <div className="absolute top-6 right-6 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xl max-w-[170px] text-left space-y-1 hidden sm:block z-20">
+              <span className="text-[8px] font-black text-[#6D4AFF] uppercase tracking-widest font-mono">Hotelogx Core</span>
+              <p className="text-xs font-black text-slate-900">Active Link</p>
+              <span className="text-[8.5px] text-emerald-600 font-black flex items-center gap-1.5 font-mono">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" /> Uptime 99.99%
               </span>
             </div>
           </motion.div>
@@ -364,19 +378,19 @@ const LandingPage = () => {
       </section>
 
       {/* 3. HOTEL SYSTEM CONNECTIONS */}
-      <section id="infrastructure" className="bg-white text-[#111827] py-28 relative z-10 border-y border-[#E7E4DD] text-left">
+      <section id="infrastructure" className="bg-white text-slate-900 py-28 relative z-10 border-y border-slate-200 text-left shadow-sm">
         <div className="max-w-7xl mx-auto px-6 sm:px-8">
           
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center pb-16 border-b border-[#E7E4DD]">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center pb-16 border-b border-slate-200">
             <div className="lg:col-span-5 space-y-4">
-              <span className="text-[9px] font-bold tracking-wider text-[#6D4AFF] uppercase font-mono">Platform Ecosystem</span>
-              <h2 className="text-3xl sm:text-4xl font-normal tracking-tight font-serif text-[#111827]">
+              <span className="text-[9.5px] font-extrabold tracking-wider text-[#6D4AFF] uppercase font-mono">Platform Ecosystem</span>
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight font-serif text-slate-900">
                 Hotel System <br />
                 <span className="italic font-light text-[#6D4AFF]">Connections</span>
               </h2>
             </div>
             <div className="lg:col-span-7">
-              <p className="text-[#667085] text-xs sm:text-sm leading-relaxed max-w-xl font-medium">
+              <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-xl font-medium">
                 Connect your hotel software, WhatsApp, and email so AI can work automatically.
               </p>
             </div>
@@ -384,34 +398,34 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 pt-16">
             {/* Integration 1 */}
-            <div className="space-y-4 text-left">
-              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center border border-[#E7E4DD] shadow-sm text-[#6D4AFF]">
-                <Database size={16} />
+            <div className="p-6 rounded-2xl bg-white border border-slate-200/90 space-y-4 text-left shadow-xl hover:border-[#6D4AFF]/50 transition-all text-slate-900">
+              <div className="w-11 h-11 bg-purple-50 rounded-xl flex items-center justify-center border border-purple-100 text-[#6D4AFF]">
+                <Database size={20} />
               </div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#111827] font-mono">Oracle Opera Cloud</h4>
-              <p className="text-[10.5px] text-[#667085] font-semibold leading-relaxed">
+              <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 font-mono">Oracle Opera Cloud</h4>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">
                 Bi-directional sync of guest registrations, folio transactions, check-in timelines, and housekeeping schedules.
               </p>
             </div>
 
             {/* Integration 2 */}
-            <div className="space-y-4 text-left">
-              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center border border-[#E7E4DD] shadow-sm text-[#6D4AFF]">
-                <Smartphone size={16} />
+            <div className="p-6 rounded-2xl bg-white border border-slate-200/90 space-y-4 text-left shadow-xl hover:border-[#6D4AFF]/50 transition-all text-slate-900">
+              <div className="w-11 h-11 bg-purple-50 rounded-xl flex items-center justify-center border border-purple-100 text-[#6D4AFF]">
+                <Smartphone size={20} />
               </div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#111827] font-mono">WhatsApp Gateway</h4>
-              <p className="text-[10.5px] text-[#667085] font-semibold leading-relaxed">
+              <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 font-mono">WhatsApp Gateway</h4>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">
                 Send check-in confirmations, upsell menus, and late checkout approvals directly to guests over verified channels.
               </p>
             </div>
 
             {/* Integration 3 */}
-            <div className="space-y-4 text-left">
-              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center border border-[#E7E4DD] shadow-sm text-[#6D4AFF]">
-                <Mail size={16} />
+            <div className="p-6 rounded-2xl bg-white border border-slate-200/90 space-y-4 text-left shadow-xl hover:border-[#6D4AFF]/50 transition-all text-slate-900">
+              <div className="w-11 h-11 bg-purple-50 rounded-xl flex items-center justify-center border border-purple-100 text-[#6D4AFF]">
+                <Mail size={20} />
               </div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#111827] font-mono">Email Sync</h4>
-              <p className="text-[10.5px] text-[#667085] font-semibold leading-relaxed">
+              <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 font-mono">Email Sync</h4>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">
                 Automatically read reservation amendments, respond to room queries, and deliver customized invoice folios.
               </p>
             </div>
@@ -421,20 +435,22 @@ const LandingPage = () => {
       </section>
 
       {/* 4. OPERATIONAL WORKFLOW SECTION */}
-      <section id="workflow" className="max-w-7xl mx-auto px-6 sm:px-8 py-28 relative z-10">
+      <section id="workflow" className="max-w-7xl mx-auto px-6 sm:px-8 py-28 relative z-10 text-slate-900">
         
         <div className="text-center max-w-2xl mx-auto space-y-4 pb-16">
-          <span className="text-[9px] font-bold tracking-wider text-[#6D4AFF] uppercase font-mono">Interactive Demo</span>
-          <h2 className="text-3xl sm:text-4xl font-normal tracking-tight text-slate-900 font-serif">
-            How AutoPilot <span className="italic font-light text-[#6D4AFF]">works</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-900/80 text-purple-300 rounded-full border border-purple-400/40 text-[8.5px] font-extrabold uppercase tracking-widest font-mono shadow-md backdrop-blur-sm">
+            <span>Interactive Demo</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white font-serif drop-shadow-md">
+            How AutoPilot <span className="italic font-light text-purple-300">works</span>
           </h2>
-          <p className="text-[#667085] text-xs sm:text-sm max-w-lg mx-auto font-medium leading-relaxed">
+          <p className="text-slate-100 text-xs sm:text-sm max-w-lg mx-auto font-semibold leading-relaxed drop-shadow-sm">
             Select a guest scenario below to simulate how our PMS core identifies, evaluates, and dispatches responses.
           </p>
         </div>
 
-        {/* Realistic operational selectors */}
-        <div className="flex flex-wrap justify-center gap-2.5 mb-12">
+        {/* Operational selectors */}
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
           {[
             { id: 'checkout', label: 'Late checkout extension' },
             { id: 'spa', label: 'Spa booking validation' },
@@ -444,7 +460,7 @@ const LandingPage = () => {
             <button 
               key={sop.id}
               onClick={() => setActiveSop(sop.id)}
-              className={`px-5 py-3 rounded-xl text-[9.5px] font-black uppercase tracking-widest transition-all border cursor-pointer ${activeSop === sop.id ? 'bg-[#0B1020] text-white border-[#0B1020] shadow-sm' : 'bg-white hover:bg-[#F7F6F3] text-[#667085] border-[#E7E4DD]'}`}
+              className={`px-5 py-3 rounded-xl text-[10px] font-extrabold uppercase tracking-widest transition-all border cursor-pointer ${activeSop === sop.id ? 'bg-[#6D4AFF] text-white border-white/20 shadow-lg shadow-[#6D4AFF]/30 scale-105' : 'bg-white text-slate-700 hover:bg-slate-100 border-slate-200/90 shadow-sm'}`}
             >
               {sop.label}
             </button>
@@ -459,33 +475,33 @@ const LandingPage = () => {
             return (
               <div
                 key={step.eyebrow}
-                className="bg-white p-5 rounded-2xl border border-[#E7E4DD] shadow-sm hover:shadow-md hover:-translate-y-1 transition-all flex flex-col min-h-[250px] relative overflow-hidden"
+                className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all flex flex-col min-h-[250px] relative overflow-hidden text-slate-900"
               >
-                <div className={`absolute left-0 top-0 bottom-0 w-1 ${isFinal && sops[activeSop].status.includes('Escalated') ? 'bg-purple-500' : isFinal ? 'bg-emerald-500' : 'bg-[#6D4AFF]'}`} />
+                <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${isFinal && sops[activeSop].status.includes('Escalated') ? 'bg-purple-500' : isFinal ? 'bg-emerald-500' : 'bg-[#6D4AFF]'}`} />
                 <div className="flex items-start justify-between gap-3">
-                  <div className={`w-10 h-10 rounded-xl border border-[#E7E4DD] bg-[#FAF9F6] flex items-center justify-center ${step.accent}`}>
-                    <Icon size={16} />
+                  <div className={`w-10 h-10 rounded-xl border border-purple-100 bg-purple-50 flex items-center justify-center ${step.accent}`}>
+                    <Icon size={18} />
                   </div>
-                  <span className="text-[8px] font-black text-[#667085] uppercase tracking-wider">
+                  <span className="text-[8.5px] font-extrabold text-[#6D4AFF] uppercase tracking-wider font-mono">
                     {step.eyebrow}
                   </span>
                 </div>
 
                 <div className="mt-5 space-y-3 flex-1">
-                  <h3 className="text-sm font-bold text-[#111827] tracking-tight leading-snug">
+                  <h3 className="text-sm font-extrabold text-slate-900 tracking-tight leading-snug">
                     {step.title}
                   </h3>
-                  <p className="text-[11px] text-[#667085] font-medium leading-relaxed line-clamp-5">
+                  <p className="text-[11.5px] text-slate-600 font-medium leading-relaxed line-clamp-5">
                     {step.detail}
                   </p>
                 </div>
 
-                <div className="pt-4 mt-4 border-t border-[#E7E4DD] flex items-center justify-between gap-2">
-                  <span className={`text-[8px] font-black uppercase tracking-wide px-2 py-1 rounded-md border ${step.statusColor || 'bg-[#FAF9F6] text-[#667085] border-[#E7E4DD]'}`}>
+                <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+                  <span className={`text-[8.5px] font-extrabold uppercase tracking-wide px-2.5 py-1 rounded-lg border ${step.statusColor || 'bg-slate-100 text-slate-600 border-slate-200'}`}>
                     {step.meta}
                   </span>
                   {index < workflowSteps.length - 1 && (
-                    <ArrowRight size={13} className="text-[#6D4AFF] shrink-0" />
+                    <ArrowRight size={14} className="text-[#6D4AFF] shrink-0" />
                   )}
                 </div>
               </div>
@@ -495,15 +511,15 @@ const LandingPage = () => {
       </section>
 
       {/* 5. AI OPERATIONAL FEATURES */}
-      <section id="features" className="bg-white text-[#111827] py-28 relative z-10 border-y border-[#E7E4DD] text-left">
+      <section id="features" className="bg-white text-slate-900 py-28 relative z-10 border-y border-slate-200 text-left shadow-sm">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 space-y-16">
           
           <div className="max-w-2xl space-y-4">
-            <span className="text-[9px] font-bold tracking-wider text-[#6D4AFF] uppercase font-mono">Operations & Safety</span>
-            <h2 className="text-3xl sm:text-4xl font-normal tracking-tight font-serif text-[#111827]">
+            <span className="text-[9.5px] font-extrabold tracking-wider text-[#6D4AFF] uppercase font-mono">Operations & Safety</span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight font-serif text-slate-900">
               Everything your hotel staff needs
             </h2>
-            <p className="text-[#667085] text-xs sm:text-sm leading-relaxed max-w-xl font-medium">
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-xl font-medium">
               A comprehensive command suite designed for operators to manage automation limits, verify synchronization status, and manage live workflows.
             </p>
           </div>
@@ -511,67 +527,67 @@ const LandingPage = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             
             {/* Card 1 */}
-            <div className="p-7 bg-[#FAF9F6] rounded-xl border border-[#E7E4DD] space-y-4 hover:border-slate-350 transition-all shadow-sm">
-              <div className="w-10 h-10 bg-white border border-[#E7E4DD] rounded-xl flex items-center justify-center text-[#6D4AFF] shadow-sm">
-                <MessageSquare size={16} />
+            <div className="p-7 bg-white rounded-2xl border border-slate-200/90 space-y-4 hover:border-[#6D4AFF]/50 transition-all shadow-xl text-slate-900">
+              <div className="w-11 h-11 bg-purple-50 border border-purple-100 rounded-xl flex items-center justify-center text-[#6D4AFF] shadow-sm">
+                <MessageSquare size={18} />
               </div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#111827] font-mono">Automated Messages</h4>
-              <p className="text-[10.5px] text-[#667085] font-semibold leading-relaxed">
+              <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 font-mono">Automated Messages</h4>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">
                 Connects across WhatsApp Business API and Email. Delivers context-driven answers based on actual checkout date, guest profiles, and reservation parameters.
               </p>
             </div>
 
             {/* Card 2 */}
-            <div className="p-7 bg-[#FAF9F6] rounded-xl border border-[#E7E4DD] space-y-4 hover:border-slate-350 transition-all shadow-sm">
-              <div className="w-10 h-10 bg-white border border-[#E7E4DD] rounded-xl flex items-center justify-center text-[#6D4AFF] shadow-sm">
-                <Users size={16} />
+            <div className="p-7 bg-white rounded-2xl border border-slate-200/90 space-y-4 hover:border-[#6D4AFF]/50 transition-all shadow-xl text-slate-900">
+              <div className="w-11 h-11 bg-purple-50 border border-purple-100 rounded-xl flex items-center justify-center text-[#6D4AFF] shadow-sm">
+                <Users size={18} />
               </div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#111827] font-mono">Human Support Queue</h4>
-              <p className="text-[10.5px] text-[#667085] font-semibold leading-relaxed">
+              <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 font-mono">Human Support Queue</h4>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">
                 Whenever guest requirements demand staff attention, conversations are automatically transferred to human operators in real time.
               </p>
             </div>
 
             {/* Card 3 */}
-            <div className="p-7 bg-[#FAF9F6] rounded-xl border border-[#E7E4DD] space-y-4 hover:border-slate-350 transition-all shadow-sm">
-              <div className="w-10 h-10 bg-white border border-[#E7E4DD] rounded-xl flex items-center justify-center text-[#6D4AFF] shadow-sm">
-                <Database size={16} />
+            <div className="p-7 bg-white rounded-2xl border border-slate-200/90 space-y-4 hover:border-[#6D4AFF]/50 transition-all shadow-xl text-slate-900">
+              <div className="w-11 h-11 bg-purple-50 border border-purple-100 rounded-xl flex items-center justify-center text-[#6D4AFF] shadow-sm">
+                <Database size={18} />
               </div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#111827] font-mono">Guest Request Tracking</h4>
-              <p className="text-[10.5px] text-[#667085] font-semibold leading-relaxed">
+              <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 font-mono">Guest Request Tracking</h4>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">
                 Continuous background cycles fetch reservation information directly from Opera or Mews, preventing dual booking discrepancies.
               </p>
             </div>
 
             {/* Card 4 */}
-            <div className="p-7 bg-[#FAF9F6] rounded-xl border border-[#E7E4DD] space-y-4 hover:border-slate-350 transition-all shadow-sm">
-              <div className="w-10 h-10 bg-white border border-[#E7E4DD] rounded-xl flex items-center justify-center text-[#6D4AFF] shadow-sm">
-                <Calendar size={16} />
+            <div className="p-7 bg-white rounded-2xl border border-slate-200/90 space-y-4 hover:border-[#6D4AFF]/50 transition-all shadow-xl text-slate-900">
+              <div className="w-11 h-11 bg-purple-50 border border-purple-100 rounded-xl flex items-center justify-center text-[#6D4AFF] shadow-sm">
+                <Calendar size={18} />
               </div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#111827] font-mono">Service Charge Updates</h4>
-              <p className="text-[10.5px] text-[#667085] font-semibold leading-relaxed">
+              <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 font-mono">Service Charge Updates</h4>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">
                 Posts transactions directly to the guest’s active hotel folio for authorized checkout extensions, spa slots, and premium amenity packages.
               </p>
             </div>
 
             {/* Card 5 */}
-            <div className="p-7 bg-[#FAF9F6] rounded-xl border border-[#E7E4DD] space-y-4 hover:border-slate-350 transition-all shadow-sm">
-              <div className="w-10 h-10 bg-white border border-[#E7E4DD] rounded-xl flex items-center justify-center text-[#6D4AFF] shadow-sm">
-                <ShieldCheck size={16} />
+            <div className="p-7 bg-white rounded-2xl border border-slate-200/90 space-y-4 hover:border-[#6D4AFF]/50 transition-all shadow-xl text-slate-900">
+              <div className="w-11 h-11 bg-purple-50 border border-purple-100 rounded-xl flex items-center justify-center text-[#6D4AFF] shadow-sm">
+                <ShieldCheck size={18} />
               </div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#111827] font-mono">AI Rules & Settings</h4>
-              <p className="text-[10.5px] text-[#667085] font-semibold leading-relaxed">
+              <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 font-mono">AI Rules & Settings</h4>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">
                 Strict safety criteria evaluate guest histories and compliance rules before dispatching any automated confirmation or action.
               </p>
             </div>
 
             {/* Card 6 */}
-            <div className="p-7 bg-[#FAF9F6] rounded-xl border border-[#E7E4DD] space-y-4 hover:border-slate-350 transition-all shadow-sm">
-              <div className="w-10 h-10 bg-white border border-[#E7E4DD] rounded-xl flex items-center justify-center text-[#6D4AFF] shadow-sm">
-                <Lock size={16} />
+            <div className="p-7 bg-white rounded-2xl border border-slate-200/90 space-y-4 hover:border-[#6D4AFF]/50 transition-all shadow-xl text-slate-900">
+              <div className="w-11 h-11 bg-purple-50 border border-purple-100 rounded-xl flex items-center justify-center text-[#6D4AFF] shadow-sm">
+                <Lock size={18} />
               </div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#111827] font-mono">Escalation Control</h4>
-              <p className="text-[10.5px] text-[#667085] font-semibold leading-relaxed">
+              <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 font-mono">Escalation Control</h4>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">
                 Lock down high-stakes changes—like billing disputes or room changes—requiring physical front desk approval.
               </p>
             </div>
@@ -581,70 +597,72 @@ const LandingPage = () => {
       </section>
 
       {/* 6. LIVE OPERATIONS INTELLIGENCE */}
-      <section id="telemetry" className="max-w-7xl mx-auto px-6 sm:px-8 py-28 relative z-10 text-left">
+      <section id="telemetry" className="max-w-7xl mx-auto px-6 sm:px-8 py-28 relative z-10 text-left text-slate-900">
         <div className="grid lg:grid-cols-12 gap-16 items-center">
           
           <div className="lg:col-span-5 space-y-6">
-            <span className="text-[9px] font-bold tracking-wider text-[#6D4AFF] uppercase font-mono">System Performance</span>
-            <h2 className="text-3xl font-normal tracking-tight text-slate-900 font-serif">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-900/80 text-purple-300 rounded-full border border-purple-400/40 text-[8.5px] font-extrabold uppercase tracking-widest font-mono shadow-md backdrop-blur-sm">
+              <span>System Performance</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white font-serif drop-shadow-md">
               Live Hotel Activity
             </h2>
-            <p className="text-[#667085] text-xs sm:text-sm leading-relaxed font-medium">
+            <p className="text-slate-100 text-xs sm:text-sm leading-relaxed font-semibold drop-shadow-sm">
               AutoPilot continuously monitors real-time transaction indices, response delay factors, database sync health, and automation dispatch ratios to ensure total system compliance.
             </p>
 
-            <div className="divide-y divide-[#E7E4DD] text-xs font-bold text-[#667085]">
-              <div className="py-4.5 flex justify-between items-center">
+            <div className="divide-y divide-white/20 text-xs font-extrabold text-slate-100">
+              <div className="py-4 flex justify-between items-center">
                 <span>Core Automation Engine Uptime</span>
-                <span className="text-emerald-600 font-mono font-bold">99.98% Active</span>
+                <span className="text-emerald-400 font-mono font-bold">99.98% Active</span>
               </div>
-              <div className="py-4.5 flex justify-between items-center">
+              <div className="py-4 flex justify-between items-center">
                 <span>Average Message Process Speed</span>
-                <span className="text-[#111827] font-mono">1.2 seconds</span>
+                <span className="text-white font-mono font-bold">1.2 seconds</span>
               </div>
-              <div className="py-4.5 flex justify-between items-center">
+              <div className="py-4 flex justify-between items-center">
                 <span>PMS Folio Sync write latency</span>
-                <span className="text-[#111827] font-mono">14ms average</span>
+                <span className="text-white font-mono font-bold">14ms average</span>
               </div>
             </div>
           </div>
 
-          <div className="lg:col-span-7 bg-[#FAF9F6] p-7 rounded-2xl border border-[#E7E4DD] grid grid-cols-2 sm:grid-cols-3 gap-5">
+          <div className="lg:col-span-7 bg-white p-7 rounded-3xl border border-slate-200/90 grid grid-cols-2 sm:grid-cols-3 gap-5 shadow-2xl text-slate-900">
             
-            <div className="p-5 bg-white border border-[#E7E4DD] rounded-xl space-y-1.5 shadow-sm text-left">
-              <span className="text-[8px] font-bold text-[#667085] uppercase tracking-wider font-mono">AI Success Rate</span>
-              <p className="text-2xl font-bold text-slate-900 font-serif tracking-tight">89.4%</p>
-              <span className="text-[8px] text-emerald-600 font-bold tracking-wider uppercase font-mono">High autonomy</span>
+            <div className="p-5 bg-slate-50/90 border border-slate-200/80 rounded-2xl space-y-1.5 shadow-sm text-left">
+              <span className="text-[8.5px] font-extrabold text-[#6D4AFF] uppercase tracking-wider font-mono">AI Success Rate</span>
+              <p className="text-2xl font-extrabold text-slate-900 font-serif tracking-tight">89.4%</p>
+              <span className="text-[8.5px] text-emerald-600 font-extrabold tracking-wider uppercase font-mono">High autonomy</span>
             </div>
 
-            <div className="p-5 bg-white border border-[#E7E4DD] rounded-xl space-y-1.5 shadow-sm text-left">
-              <span className="text-[8px] font-bold text-[#667085] uppercase tracking-wider font-mono">Messages Processed</span>
-              <p className="text-2xl font-bold text-slate-900 font-serif tracking-tight">142,850</p>
-              <span className="text-[8px] text-emerald-600 font-bold tracking-wider uppercase font-mono">Continuous</span>
+            <div className="p-5 bg-slate-50/90 border border-slate-200/80 rounded-2xl space-y-1.5 shadow-sm text-left">
+              <span className="text-[8.5px] font-extrabold text-[#6D4AFF] uppercase tracking-wider font-mono">Messages Processed</span>
+              <p className="text-2xl font-extrabold text-slate-900 font-serif tracking-tight">142,850</p>
+              <span className="text-[8.5px] text-emerald-600 font-extrabold tracking-wider uppercase font-mono">Continuous</span>
             </div>
 
-            <div className="p-5 bg-white border border-[#E7E4DD] rounded-xl space-y-1.5 shadow-sm text-left">
-              <span className="text-[8px] font-bold text-[#667085] uppercase tracking-wider font-mono">Active Conversations</span>
-              <p className="text-2xl font-bold text-slate-900 font-serif tracking-tight">342</p>
-              <span className="text-[8px] text-emerald-600 font-bold tracking-wider uppercase font-mono">Live</span>
+            <div className="p-5 bg-slate-50/90 border border-slate-200/80 rounded-2xl space-y-1.5 shadow-sm text-left">
+              <span className="text-[8.5px] font-extrabold text-[#6D4AFF] uppercase tracking-wider font-mono">Active Conversations</span>
+              <p className="text-2xl font-extrabold text-slate-900 font-serif tracking-tight">342</p>
+              <span className="text-[8.5px] text-emerald-600 font-extrabold tracking-wider uppercase font-mono">Live</span>
             </div>
 
-            <div className="p-5 bg-white border border-[#E7E4DD] rounded-xl space-y-1.5 shadow-sm text-left">
-              <span className="text-[8px] font-bold text-[#667085] uppercase tracking-wider font-mono">Average Response Time</span>
-              <p className="text-2xl font-bold text-slate-900 font-serif tracking-tight">1.2s</p>
-              <span className="text-[8px] text-[#6D4AFF] font-bold tracking-wider uppercase font-mono">Instant</span>
+            <div className="p-5 bg-slate-50/90 border border-slate-200/80 rounded-2xl space-y-1.5 shadow-sm text-left">
+              <span className="text-[8.5px] font-extrabold text-[#6D4AFF] uppercase tracking-wider font-mono">Average Response Time</span>
+              <p className="text-2xl font-extrabold text-slate-900 font-serif tracking-tight">1.2s</p>
+              <span className="text-[8.5px] text-[#6D4AFF] font-extrabold tracking-wider uppercase font-mono">Instant</span>
             </div>
 
-            <div className="p-5 bg-white border border-[#E7E4DD] rounded-xl space-y-1.5 shadow-sm text-left">
-              <span className="text-[8px] font-bold text-[#667085] uppercase tracking-wider font-mono">Connected Hotels</span>
-              <p className="text-2xl font-bold text-slate-900 font-serif tracking-tight">184</p>
-              <span className="text-[8px] text-[#667085] font-bold tracking-wider uppercase font-mono">Active properties</span>
+            <div className="p-5 bg-slate-50/90 border border-slate-200/80 rounded-2xl space-y-1.5 shadow-sm text-left">
+              <span className="text-[8.5px] font-extrabold text-[#6D4AFF] uppercase tracking-wider font-mono">Connected Hotels</span>
+              <p className="text-2xl font-extrabold text-slate-900 font-serif tracking-tight">184</p>
+              <span className="text-[8.5px] text-slate-600 font-extrabold tracking-wider uppercase font-mono">Active properties</span>
             </div>
 
-            <div className="p-5 bg-white border border-[#E7E4DD] rounded-xl space-y-1.5 shadow-sm text-left">
-              <span className="text-[8px] font-bold text-[#667085] uppercase tracking-wider font-mono">Revenue Generated</span>
-              <p className="text-2xl font-bold text-slate-900 font-serif tracking-tight">$42,500</p>
-              <span className="text-[8px] text-emerald-600 font-bold tracking-wider uppercase font-mono">Monthly upsells</span>
+            <div className="p-5 bg-slate-50/90 border border-slate-200/80 rounded-2xl space-y-1.5 shadow-sm text-left">
+              <span className="text-[8.5px] font-extrabold text-[#6D4AFF] uppercase tracking-wider font-mono">Revenue Generated</span>
+              <p className="text-2xl font-extrabold text-slate-900 font-serif tracking-tight">$42,500</p>
+              <span className="text-[8.5px] text-emerald-600 font-extrabold tracking-wider uppercase font-mono">Monthly upsells</span>
             </div>
 
           </div>
@@ -653,15 +671,15 @@ const LandingPage = () => {
       </section>
 
       {/* 7. HOSPITALITY BENEFITS SECTION */}
-      <section id="benefits" className="bg-[#FAF9F6] border-y border-[#E7E4DD] py-28 relative z-10 text-left">
+      <section id="benefits" className="bg-white border-y border-slate-200 py-28 relative z-10 text-left shadow-sm text-slate-900">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 space-y-16">
           
           <div className="max-w-2xl space-y-4">
-            <span className="text-[9px] font-bold tracking-wider text-[#6D4AFF] uppercase font-mono">Advantages</span>
-            <h2 className="text-3xl sm:text-4xl font-normal tracking-tight font-serif text-slate-900">
+            <span className="text-[9.5px] font-extrabold tracking-wider text-[#6D4AFF] uppercase font-mono">Advantages</span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight font-serif text-slate-900">
               Why hotels use AutoPilot
             </h2>
-            <p className="text-[#667085] text-xs sm:text-sm leading-relaxed max-w-xl font-medium">
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-xl font-medium">
               Built exclusively for premium hotels to handle peak volumes, reduce friction, and elevate check-in and checkout flows.
             </p>
           </div>
@@ -669,55 +687,55 @@ const LandingPage = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
             
             {/* Benefit 1 */}
-            <div className="space-y-4 text-left">
-              <div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center font-bold text-xs text-[#6D4AFF] border border-[#E7E4DD] shadow-sm font-mono">01</div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono">Faster Guest Support</h4>
-              <p className="text-[10.5px] text-[#667085] font-semibold leading-relaxed">
+            <div className="space-y-4 text-left p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xl text-slate-900">
+              <div className="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center font-extrabold text-xs text-[#6D4AFF] border border-purple-100 font-mono shadow-sm">01</div>
+              <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 font-mono">Faster Guest Support</h4>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">
                 Guest questions are validated, checked against existing PMS rules, and resolved on active chat lines in under two seconds.
               </p>
             </div>
 
             {/* Benefit 2 */}
-            <div className="space-y-4 text-left">
-              <div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center font-bold text-xs text-[#6D4AFF] border border-[#E7E4DD] shadow-sm font-mono">02</div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono">Reduce Staff Work</h4>
-              <p className="text-[10.5px] text-[#667085] font-semibold leading-relaxed">
+            <div className="space-y-4 text-left p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xl text-slate-900">
+              <div className="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center font-extrabold text-xs text-[#6D4AFF] border border-purple-100 font-mono shadow-sm">02</div>
+              <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 font-mono">Reduce Staff Work</h4>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">
                 Offloads up to 85% of repetitive requests—such as WiFi setup, check-out hours, and policy lookups—so desk agents can focus on in-person guest reception.
               </p>
             </div>
 
             {/* Benefit 3 */}
-            <div className="space-y-4 text-left">
-              <div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center font-bold text-xs text-[#6D4AFF] border border-[#E7E4DD] shadow-sm font-mono">03</div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono">Increase Revenue</h4>
-              <p className="text-[10.5px] text-[#667085] font-semibold leading-relaxed">
+            <div className="space-y-4 text-left p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xl text-slate-900">
+              <div className="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center font-extrabold text-xs text-[#6D4AFF] border border-purple-100 font-mono shadow-sm">03</div>
+              <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 font-mono">Increase Revenue</h4>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">
                 Proactively offers premium dining reservations, late checkout extensions, and spa appointments to guests based on real-time availability indicator feeds.
               </p>
             </div>
 
             {/* Benefit 4 */}
-            <div className="space-y-4 text-left">
-              <div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center font-bold text-xs text-[#6D4AFF] border border-[#E7E4DD] shadow-sm font-mono">04</div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono">Automatic Responses</h4>
-              <p className="text-[10.5px] text-[#667085] font-semibold leading-relaxed">
+            <div className="space-y-4 text-left p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xl text-slate-900">
+              <div className="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center font-extrabold text-xs text-[#6D4AFF] border border-purple-100 font-mono shadow-sm">04</div>
+              <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 font-mono">Automatic Responses</h4>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">
                 Seamlessly posts folio modifications, keycard authorization windows, and checkout reports back to Opera cloud registries automatically.
               </p>
             </div>
 
             {/* Benefit 5 */}
-            <div className="space-y-4 text-left">
-              <div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center font-bold text-xs text-[#6D4AFF] border border-[#E7E4DD] shadow-sm font-mono">05</div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono">Guest Satisfaction</h4>
-              <p className="text-[10.5px] text-[#667085] font-semibold leading-relaxed">
+            <div className="space-y-4 text-left p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xl text-slate-900">
+              <div className="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center font-extrabold text-xs text-[#6D4AFF] border border-purple-100 font-mono shadow-sm">05</div>
+              <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 font-mono">Guest Satisfaction</h4>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">
                 Maintains a professional, helpful brand voice across all active channels, strictly aligned with high-end concierge standard operating procedures.
               </p>
             </div>
 
             {/* Benefit 6 */}
-            <div className="space-y-4 text-left">
-              <div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center font-bold text-xs text-[#6D4AFF] border border-[#E7E4DD] shadow-sm font-mono">06</div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono">Better Operations</h4>
-              <p className="text-[10.5px] text-[#667085] font-semibold leading-relaxed">
+            <div className="space-y-4 text-left p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xl text-slate-900">
+              <div className="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center font-extrabold text-xs text-[#6D4AFF] border border-purple-100 font-mono shadow-sm">06</div>
+              <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 font-mono">Better Operations</h4>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">
                 Includes permanent operation logs, read-only system backups, and specific human-override rules for secure operator oversight.
               </p>
             </div>
@@ -727,21 +745,17 @@ const LandingPage = () => {
       </section>
 
       {/* 8.5 SUBSCRIPTION PRICING PLANS */}
-      <section id="pricing-tiers" className="py-24 border-t border-[#E7E4DD] bg-white relative overflow-hidden">
-        {/* Subtle background luxury visual nodes */}
-        <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#6D4AFF]/5 blur-[120px] rounded-full pointer-events-none" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#6D4AFF]/5 blur-[120px] rounded-full pointer-events-none" />
-
+      <section id="pricing-tiers" className="py-24 border-t border-slate-200 bg-white relative overflow-hidden text-slate-900">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 relative z-10">
           <div className="max-w-2xl text-left space-y-4 mb-16">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#6D4AFF]/10 text-[#6D4AFF] rounded-full border border-[#6D4AFF]/20 text-[8.5px] font-black uppercase tracking-widest font-mono">
               <Layers size={10} />
               <span>Tailored Platform Subscriptions</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-normal tracking-tight leading-tight font-serif text-[#111827]">
+            <h2 className="text-3xl sm:text-4xl font-normal tracking-tight leading-tight font-serif text-slate-900">
               Choose your plan
             </h2>
-            <p className="text-[#667085] text-xs font-semibold leading-relaxed max-w-lg">
+            <p className="text-slate-600 text-xs font-semibold leading-relaxed max-w-lg">
               Select a package based on hotel size and requirements.
             </p>
           </div>
@@ -752,10 +766,10 @@ const LandingPage = () => {
               return (
                 <div 
                   key={plan.id}
-                  className={`bg-[#F7F6F3]/50 border rounded-3xl p-8 text-left relative flex flex-col justify-between transition-all hover:shadow-lg ${
+                  className={`bg-white border rounded-3xl p-8 text-left relative flex flex-col justify-between transition-all hover:shadow-xl text-slate-900 ${
                     isPro 
-                      ? 'border-[#6D4AFF] ring-1 ring-[#6D4AFF]/20 shadow-sm animate-pulse-subtle' 
-                      : 'border-[#E7E4DD]'
+                      ? 'border-[#6D4AFF] ring-1 ring-[#6D4AFF]/20 shadow-md shadow-[#6D4AFF]/10' 
+                      : 'border-slate-200/90'
                   }`}
                 >
                   {isPro && (
@@ -768,19 +782,19 @@ const LandingPage = () => {
                     <div>
                       <h3 className="text-lg font-black text-slate-900 tracking-tight">{plan.name} Plan</h3>
                       <div className="mt-4 flex items-baseline gap-1">
-                        <span className="text-4xl font-normal font-serif text-[#111827]">${plan.price}</span>
+                        <span className="text-4xl font-normal font-serif text-slate-900">${plan.price}</span>
                         <span className="text-slate-500 text-xs font-bold uppercase tracking-wider font-mono">/ {plan.duration === 'Monthly' ? 'Mo' : 'Yr'}</span>
                       </div>
-                      <p className="text-[#667085] text-[10.5px] font-semibold mt-2">
+                      <p className="text-slate-600 text-[10.5px] font-semibold mt-2">
                         Comprehensive sync tools for {plan.name.toLowerCase() === 'basic' ? 'boutique properties' : plan.name.toLowerCase() === 'pro' ? 'growing mid-scale hotels' : 'enterprise-grade luxury resorts'}.
                       </p>
                     </div>
 
-                    <div className="h-px bg-[#E7E4DD]" />
+                    <div className="h-px bg-slate-200/80" />
 
                     <ul className="space-y-3">
                       {plan.features.map((feature, fIdx) => (
-                        <li key={fIdx} className="flex gap-2.5 items-start text-xs font-semibold text-[#111827]">
+                        <li key={fIdx} className="flex gap-2.5 items-start text-xs font-semibold text-slate-800">
                           <CheckCircle2 size={15} className="text-emerald-500 shrink-0 mt-0.5" />
                           <span>{feature}</span>
                         </li>
@@ -793,7 +807,7 @@ const LandingPage = () => {
                     className={`w-full py-3.5 px-4 rounded-xl text-[9px] font-black uppercase tracking-widest text-center transition-all cursor-pointer mt-8 ${
                       isPro
                         ? 'bg-[#6D4AFF] hover:bg-[#5b3ce4] text-white shadow-sm hover:scale-[1.01]'
-                        : 'bg-[#0B1020] hover:bg-slate-900 text-white border border-[#E7E4DD]/10'
+                        : 'bg-[#0B1020] hover:bg-slate-900 text-white border border-slate-800'
                     }`}
                   >
                     Get Started
@@ -811,10 +825,10 @@ const LandingPage = () => {
           
           <div className="col-span-1 md:col-span-3 space-y-4">
             <div className="flex items-center gap-3 text-white">
-              <div className="w-8 h-8 bg-white/5 text-white rounded flex items-center justify-center border border-white/10 shadow-inner">
-                <Hotel size={15} className="text-[#6D4AFF]" />
+              <div className="w-8 h-8 bg-[#6D4AFF] text-white rounded-xl flex items-center justify-center border border-white/20 shadow-md shadow-[#6D4AFF]/30">
+                <Hotel size={16} className="text-white" />
               </div>
-              <span className="font-black text-xs uppercase tracking-wider font-mono">AutoPilot</span>
+              <span className="font-extrabold text-sm uppercase tracking-wider font-mono text-white">HOTELOGX CONNECT</span>
             </div>
             <p className="text-xs text-slate-400 max-w-xs leading-relaxed font-semibold">
               Premium hotel communication automation databases and PMS synchronization gateways for resorts, boutique hotels, and luxury chains.
@@ -842,7 +856,7 @@ const LandingPage = () => {
         </div>
 
         <div className="max-w-7xl mx-auto px-6 sm:px-8 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-[9px] text-slate-500 font-black uppercase tracking-widest font-mono">
-          <span>© {new Date().getFullYear()} AutoPilot Technologies Inc. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} HOTELOGX CONNECT Technologies Inc. All rights reserved.</span>
           <div className="flex gap-6">
             <a href="#" className="hover:text-white transition-colors">Contact Integration Group</a>
             <a href="#" className="hover:text-white transition-colors">Terms of Registry</a>
@@ -858,7 +872,7 @@ const LandingPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-start md:items-center justify-center p-4 pb-20 md:pb-4 bg-black/50 backdrop-blur-md overflow-y-auto"
+            className="fixed inset-0 z-[100] flex items-start md:items-center justify-center p-4 pb-20 md:pb-4 bg-black/60 overflow-y-auto"
             onClick={() => setShowOnboardingModal(false)}
           >
             <motion.div
@@ -869,8 +883,6 @@ const LandingPage = () => {
               className="relative w-full max-w-[540px] max-h-[calc(100vh-8rem)] md:max-h-[85vh] bg-[#F7F6F3] text-[#111827] rounded-2xl border border-[#E7E4DD] p-5 sm:p-7 shadow-2xl text-left overflow-hidden my-auto flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Subtle Ambient Accent Glow */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#6D4AFF]/5 blur-[60px] rounded-full pointer-events-none" />
 
               {/* Header */}
               <div className="flex justify-between items-start relative z-10 pb-3 border-b border-[#E7E4DD]/60">

@@ -8,7 +8,12 @@ export const ROLES = {
   PLATFORM_OPERATOR: 'Admin',
   MANAGER: 'Manager',
   GUEST_ASSISTANT: 'AI Assistant',
-  HOTEL_ADMIN: 'Hotel Admin'
+  HOTEL_ADMIN: 'Hotel Admin',
+  FRONT_OFFICE: 'Front Office',
+  HOUSEKEEPING_MANAGER: 'Housekeeping Manager',
+  HOUSEKEEPING_STAFF: 'Housekeeping Staff',
+  MAINTENANCE_MANAGER: 'Maintenance Manager',
+  MAINTENANCE_STAFF: 'Maintenance Staff'
 };
 
 export const AppProvider = ({ children }) => {
@@ -134,13 +139,9 @@ export const AppProvider = ({ children }) => {
   });
 
   const [rooms, setRooms] = useState([]);
-
   const [bookings, setBookings] = useState([]);
-
   const [staff, setStaff] = useState([]);
-
   const [invoices, setInvoices] = useState([]);
-
   const [hotels, setHotels] = useState([]);
 
   // Fetch actual Hotels from backend
@@ -254,49 +255,73 @@ export const AppProvider = ({ children }) => {
 
   const [systemEvents, setSystemEvents] = useState([]);
 
+  // Role permissions including Hotelogx Operational Roles
   const [rolePermissions, setRolePermissions] = useState({
     [ROLES.SUPER_ADMIN]: {
       'Dashboard': { view: true, create: true, edit: true, delete: true },
       'Conversations': { view: true, create: true, edit: true, delete: true },
       'Automation Engine': { view: true, create: true, edit: true, delete: true },
-      'AI Communication Rules': { view: true, create: true, edit: true, delete: true },
       'Integrations': { view: true, create: true, edit: true, delete: true },
       'Transactions': { view: true, create: true, edit: true, delete: true },
-      'Analytics': { view: true, create: true, edit: true, delete: true },
       'Settings': { view: true, create: true, edit: true, delete: true },
+      'Housekeeping': { view: true, create: true, edit: true, delete: true },
+      'Maintenance': { view: true, create: true, edit: true, delete: true },
+      'Users': { view: true, create: true, edit: true, delete: true }
     },
     [ROLES.HOTEL_ADMIN]: {
       'Dashboard': { view: true, create: true, edit: true, delete: true },
       'Conversations': { view: true, create: true, edit: true, delete: true },
       'Automation Engine': { view: true, create: true, edit: true, delete: true },
-      'AI Communication Rules': { view: true, create: true, edit: true, delete: true },
       'Integrations': { view: true, create: true, edit: true, delete: true },
       'Transactions': { view: true, create: true, edit: true, delete: true },
-      'Analytics': { view: true, create: true, edit: true, delete: true },
       'Settings': { view: true, create: true, edit: true, delete: true },
+      'Housekeeping': { view: true, create: true, edit: true, delete: true },
+      'Maintenance': { view: true, create: true, edit: true, delete: true },
+      'Users': { view: true, create: true, edit: true, delete: true }
     },
-    'Manager': {
-      'Dashboard': { view: true, create: true, edit: true, delete: false },
-      'Reservations': { view: true, create: true, edit: true, delete: false },
-      'Front Office': { view: true, create: true, edit: true, delete: false },
-      'Housekeeping': { view: true, create: true, edit: true, delete: false },
-      'Billing & Invoices': { view: true, create: true, edit: true, delete: false },
-      'Guest Experience': { view: true, create: true, edit: true, delete: false },
-      'Automation Center': { view: false, create: false, edit: false, delete: false },
-      'Analytics & Reports': { view: true, create: false, edit: false, delete: false },
-      'Settings': { view: false, create: false, edit: false, delete: false },
+    [ROLES.MANAGER]: {
+      'Dashboard': { view: true, create: true, edit: true, delete: true },
+      'Conversations': { view: true, create: true, edit: true, delete: true },
+      'Housekeeping': { view: true, create: true, edit: true, delete: true },
+      'Maintenance': { view: true, create: true, edit: true, delete: true },
+      'Users': { view: true, create: true, edit: true, delete: true },
+      'Settings': { view: true, create: true, edit: true, delete: false }
     },
-    'Staff': {
+    [ROLES.FRONT_OFFICE]: {
       'Dashboard': { view: true, create: false, edit: false, delete: false },
-      'Reservations': { view: true, create: true, edit: true, delete: false },
-      'Front Office': { view: true, create: true, edit: true, delete: false },
-      'Housekeeping': { view: true, create: true, edit: true, delete: false },
-      'Billing & Invoices': { view: false, create: false, edit: false, delete: false },
-      'Guest Experience': { view: true, create: false, edit: false, delete: false },
-      'Automation Center': { view: false, create: false, edit: false, delete: false },
-      'Analytics & Reports': { view: false, create: false, edit: false, delete: false },
-      'Settings': { view: false, create: false, edit: false, delete: false },
+      'Conversations': { view: true, create: true, edit: true, delete: false },
+      'Housekeeping': { view: true, create: false, edit: false, delete: false },
+      'Maintenance': { view: true, create: false, edit: false, delete: false },
+      'Users': { view: false, create: false, edit: false, delete: false }
     },
+    [ROLES.HOUSEKEEPING_MANAGER]: {
+      'Dashboard': { view: true, create: true, edit: true, delete: false },
+      'Housekeeping': { view: true, create: true, edit: true, delete: true },
+      'Conversations': { view: false, create: false, edit: false, delete: false },
+      'Maintenance': { view: false, create: false, edit: false, delete: false },
+      'Users': { view: false, create: false, edit: false, delete: false }
+    },
+    [ROLES.HOUSEKEEPING_STAFF]: {
+      'Dashboard': { view: true, create: false, edit: true, delete: false },
+      'Housekeeping': { view: true, create: false, edit: true, delete: false },
+      'Conversations': { view: false, create: false, edit: false, delete: false },
+      'Maintenance': { view: false, create: false, edit: false, delete: false },
+      'Users': { view: false, create: false, edit: false, delete: false }
+    },
+    [ROLES.MAINTENANCE_MANAGER]: {
+      'Dashboard': { view: true, create: true, edit: true, delete: false },
+      'Maintenance': { view: true, create: true, edit: true, delete: true },
+      'Conversations': { view: false, create: false, edit: false, delete: false },
+      'Housekeeping': { view: false, create: false, edit: false, delete: false },
+      'Users': { view: false, create: false, edit: false, delete: false }
+    },
+    [ROLES.MAINTENANCE_STAFF]: {
+      'Dashboard': { view: true, create: false, edit: true, delete: false },
+      'Maintenance': { view: true, create: false, edit: true, delete: false },
+      'Conversations': { view: false, create: false, edit: false, delete: false },
+      'Housekeeping': { view: false, create: false, edit: false, delete: false },
+      'Users': { view: false, create: false, edit: false, delete: false }
+    }
   });
 
   const updateRolePermissions = (roleName, updates) => {

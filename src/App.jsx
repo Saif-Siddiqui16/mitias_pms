@@ -23,6 +23,9 @@ import SuperAdminSettings from './pages/super-admin/SuperAdminSettings';
 import { CredentialSubmission } from './pages/onboarding/CredentialSubmission';
 import SubscriptionBilling from './pages/SubscriptionBilling';
 import BillingManagement from './pages/super-admin/BillingManagement';
+import HousekeepingDashboard from './pages/HousekeepingDashboard';
+import MaintenanceDashboard from './pages/MaintenanceDashboard';
+import UsersManagement from './pages/UsersManagement';
 import { ROLES } from './context/AppContext';
 
 const PLATFORM_ROLES = [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.GUEST_ASSISTANT];
@@ -43,6 +46,9 @@ function App() {
           <Route path="/app" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
             <Route index element={<Dashboard />} />
             <Route path="conversations" element={<Conversations />} />
+            <Route path="housekeeping" element={<HousekeepingDashboard />} />
+            <Route path="maintenance" element={<MaintenanceDashboard />} />
+            <Route path="users" element={<UsersManagement />} />
             <Route path="automation-engine" element={<AutomationEngine />} />
             <Route path="knowledge-base" element={<KnowledgeBase />} />
             <Route path="takeover-queue" element={<TakeoverQueue />} />

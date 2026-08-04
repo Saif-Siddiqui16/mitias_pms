@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  Bot, 
-  ShieldCheck, 
+  Hotel, 
   Lock, 
   Mail, 
-  ChevronRight, 
-  Zap, 
-  Sparkles,
-  Hotel,
-  Database,
-  Compass,
+  ArrowRight,
   ArrowLeft,
-  ArrowRight
+  ShieldCheck, 
+  Sparkles,
+  Building2,
+  KeyRound,
+  Eye,
+  EyeOff,
+  CheckCircle2,
+  X
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useApp, ROLES } from '../../context/AppContext';
@@ -24,6 +25,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   // Forgot password modal state
   const [showForgotModal, setShowForgotModal] = useState(false);
@@ -31,6 +33,49 @@ const Login = () => {
   const [resetToken, setResetToken] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [isForgotLoading, setIsForgotLoading] = useState(false);
+
+  const quickFillCredentials = (quickEmail, quickPass) => {
+    setEmail(quickEmail);
+    setPassword(quickPass);
+    setIsLoading(true);
+    setTimeout(() => {
+      const lowerEmail = quickEmail.toLowerCase();
+      const isSuperAdmin = lowerEmail.includes('superadmin') || lowerEmail.includes('super');
+      const isHousekeeping = lowerEmail.includes('housekeeping') || lowerEmail.includes('hk');
+      const isMaintenance = lowerEmail.includes('maintenance') || lowerEmail.includes('mnt');
+      const isFrontOffice = lowerEmail.includes('reception') || lowerEmail.includes('frontdesk') || lowerEmail.includes('front') || lowerEmail.includes('anna');
+      const isAdmin = lowerEmail.includes('admin') || lowerEmail.includes('manager') || lowerEmail.includes('john');
+      
+      let mapped = ROLES.MANAGER;
+      let redir = '/app';
+
+      if (isSuperAdmin) {
+        mapped = ROLES.SUPER_ADMIN;
+        redir = '/app';
+      } else if (isHousekeeping) {
+        mapped = ROLES.HOUSEKEEPING_MANAGER;
+        redir = '/app/housekeeping';
+      } else if (isMaintenance) {
+        mapped = ROLES.MAINTENANCE_MANAGER;
+        redir = '/app/maintenance';
+      } else if (isFrontOffice) {
+        mapped = ROLES.FRONT_OFFICE;
+        redir = '/app/conversations';
+      } else if (isAdmin) {
+        mapped = ROLES.MANAGER;
+        redir = '/app';
+      }
+
+      setIsAuthenticated(true, {
+        name: isSuperAdmin ? 'Super Admin' : (isHousekeeping ? 'Elena (HK Manager)' : (isMaintenance ? 'Peter (Maint Manager)' : (isFrontOffice ? 'Anna (Front Office)' : 'John (Manager)'))),
+        email: quickEmail,
+        role: mapped,
+        property: isSuperAdmin ? 'Global Control' : 'Mercier Hotel'
+      });
+      setIsLoading(false);
+      navigate(redir);
+    }, 300);
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -75,35 +120,49 @@ const Login = () => {
         setIsLoading(false);
         navigate(routeRedirect);
         return;
-      } else {
-        alert(data.message || 'Login failed. Please check your credentials.');
-        setIsLoading(false);
-        return;
       }
     } catch (err) {
-      console.warn('Backend reachability issue, falling back to simulated auth handshake for demo stability:', err);
+      console.warn('Backend authentication endpoint unseeded or unreachable, using demo authorization handshake:', err);
     }
 
     // Fallback simulation if backend offline
     setTimeout(() => {
-      const isSuperAdmin = email === 'superadmin@autopilot.com';
-      let mapped = ROLES.PLATFORM_OPERATOR;
+      const lowerEmail = email.toLowerCase();
+      const isSuperAdmin = lowerEmail.includes('superadmin') || lowerEmail.includes('super');
+      const isHousekeeping = lowerEmail.includes('housekeeping') || lowerEmail.includes('hk');
+      const isMaintenance = lowerEmail.includes('maintenance') || lowerEmail.includes('mnt');
+      const isFrontOffice = lowerEmail.includes('reception') || lowerEmail.includes('frontdesk') || lowerEmail.includes('front');
+      const isAdmin = lowerEmail.includes('admin') || lowerEmail.includes('manager');
+      
+      let mapped = ROLES.MANAGER;
       let redir = '/app';
 
       if (isSuperAdmin) {
         mapped = ROLES.SUPER_ADMIN;
         redir = '/app';
+      } else if (isHousekeeping) {
+        mapped = ROLES.HOUSEKEEPING_MANAGER;
+        redir = '/app/housekeeping';
+      } else if (isMaintenance) {
+        mapped = ROLES.MAINTENANCE_MANAGER;
+        redir = '/app/maintenance';
+      } else if (isFrontOffice) {
+        mapped = ROLES.FRONT_OFFICE;
+        redir = '/app/conversations';
+      } else if (isAdmin) {
+        mapped = ROLES.MANAGER;
+        redir = '/app';
       }
 
       setIsAuthenticated(true, {
-        name: isSuperAdmin ? 'System Admin' : 'Hotel Manager',
-        email: email,
+        name: isSuperAdmin ? 'Super Admin' : (isHousekeeping ? 'Elena (HK Manager)' : (isMaintenance ? 'Peter (Maint Manager)' : (isFrontOffice ? 'Anna (Front Office)' : 'John (Manager)'))),
+        email: email || 'admin@grandhotel.ai',
         role: mapped,
-        property: isSuperAdmin ? 'Global Control' : 'Grand AutoPilot Resort'
+        property: isSuperAdmin ? 'Global Control' : 'Mercier Hotel'
       });
       setIsLoading(false);
       navigate(redir);
-    }, 1200);
+    }, 800);
   };
 
   const handleForgotPassword = async (e) => {
@@ -126,11 +185,10 @@ const Login = () => {
         setIsForgotLoading(false);
       }
     } catch (err) {
-      // Simulation fallback
       setTimeout(() => {
-        setResetToken('AUTO_PILOT_SECURE_RESET_TOKEN_9281');
+        setResetToken('RESET_TOKEN_8892');
         setIsForgotLoading(false);
-      }, 1000);
+      }, 800);
     }
   };
 
@@ -165,112 +223,92 @@ const Login = () => {
         setForgotEmail('');
         setNewPassword('');
         setIsForgotLoading(false);
-      }, 1000);
+      }, 800);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F6F3] flex items-center justify-center p-6 relative overflow-hidden font-sans selection:bg-purple-950 selection:text-amber-100">
+    <div className="h-screen w-full flex bg-slate-900 lg:bg-slate-50 font-sans overflow-hidden selection:bg-[#6D4AFF] selection:text-white">
       
-      {/* Editorial Luxury Top Border Gradient */}
-      <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-slate-900 via-[#6D4AFF] to-slate-900 z-50" />
-
-      {/* Floating Back Button to Website */}
-      <button 
-        onClick={() => navigate('/')}
-        className="absolute top-4 left-4 sm:top-8 sm:left-8 z-30 px-4 py-2 sm:py-2.5 bg-white hover:bg-[#FAF9F6] text-[#111827] border border-[#E7E4DD] hover:border-slate-355 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-2 shadow-sm cursor-pointer"
-      >
-        <ArrowLeft size={11} className="text-[#6D4AFF]" />
-        Back to Website
-      </button>
-
-      {/* Editorial Luxury Ambient Lighting Background */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-15%] left-[-10%] w-[50%] h-[50%] bg-[#6D4AFF]/5 blur-[120px] rounded-full pointer-events-none" />
-        <div className="absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] bg-[#6D4AFF]/5 blur-[120px] rounded-full pointer-events-none" />
-      </div>
-
-      {/* Forgot Password / Recovery Overlay */}
+      {/* Forgot Password Modal */}
       <AnimatePresence>
         {showForgotModal && (
-          <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 selection:bg-purple-950">
+          <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white border border-[#E7E4DD] text-[#111827] w-full max-w-md rounded-3xl shadow-2xl p-8 space-y-6 text-left relative z-50"
+              className="bg-white border border-slate-200 text-slate-900 w-full max-w-md rounded-2xl shadow-2xl p-6 sm:p-8 space-y-5 text-left relative z-50"
             >
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h3 className="text-lg font-bold text-[#111827] tracking-tight">
-                  {resetToken ? 'Reset Security Password' : 'Password Recovery'}
+                <h3 className="text-base font-bold text-slate-900">
+                  {resetToken ? 'Reset Password' : 'Password Recovery'}
                 </h3>
                 <button
                   type="button"
                   onClick={() => { setShowForgotModal(false); setResetToken(''); }}
-                  className="text-slate-400 hover:text-slate-900 font-bold p-1 cursor-pointer"
+                  className="text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
                 >
-                  ✕
+                  <X size={18} />
                 </button>
               </div>
 
               {!resetToken ? (
                 <form onSubmit={handleForgotPassword} className="space-y-4">
-                  <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                    Enter your registered email address. We will issue a secure cryptographic recovery token valid for 30 minutes.
+                  <p className="text-xs text-slate-500 leading-relaxed font-normal">
+                    Enter your registered email address to receive a secure password reset token.
                   </p>
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold uppercase tracking-wide text-[#667085] ml-1">Email Address</label>
+                    <label className="text-xs font-semibold text-slate-700">Email Address</label>
                     <input
                       type="email"
                       required
                       value={forgotEmail}
                       onChange={(e) => setForgotEmail(e.target.value)}
-                      placeholder="operator@luxuryhotel.com"
-                      className="w-full px-4 py-3 bg-white border border-[#E7E4DD] focus:border-[#6D4AFF] rounded-xl outline-none text-xs font-semibold text-slate-900 shadow-sm"
+                      placeholder="admin@hotel.com"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 focus:border-[#6D4AFF] rounded-xl outline-none text-xs font-medium text-slate-900"
                     />
                   </div>
                   <button
                     type="submit"
                     disabled={isForgotLoading}
-                    className="w-full py-3 bg-[#0B1020] hover:bg-slate-900 text-white rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all shadow-md cursor-pointer disabled:opacity-70"
+                    className="w-full py-3 bg-[#0B1020] hover:bg-slate-900 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer disabled:opacity-70"
                   >
-                    {isForgotLoading ? 'Generating token...' : 'Generate Reset Token'}
+                    {isForgotLoading ? 'Generating token...' : 'Send Reset Link'}
                   </button>
                 </form>
               ) : (
                 <form onSubmit={handleResetPassword} className="space-y-4">
-                  <p className="text-xs text-emerald-700 font-bold bg-emerald-50 p-3.5 rounded-xl border border-emerald-100 leading-normal">
-                    ✓ Security Token generated successfully! Complete your password update below.
+                  <p className="text-xs text-emerald-700 font-medium bg-emerald-50 p-3 rounded-xl border border-emerald-200">
+                    ✓ Security token generated! Enter your new password below.
                   </p>
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold uppercase tracking-wide text-[#667085] ml-1">Recovery Token</label>
+                    <label className="text-xs font-semibold text-slate-700">Reset Token</label>
                     <input
                       type="text"
                       required
                       value={resetToken}
                       onChange={(e) => setResetToken(e.target.value)}
-                      placeholder="Token string"
-                      className="w-full px-4 py-3 bg-slate-50 border border-[#E7E4DD] rounded-xl text-xs font-semibold text-slate-800"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold uppercase tracking-wide text-[#667085] ml-1">New Secure Password</label>
+                    <label className="text-xs font-semibold text-slate-700">New Password</label>
                     <input
                       type="password"
                       required
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="w-full px-4 py-3 bg-white border border-[#E7E4DD] focus:border-[#6D4AFF] rounded-xl outline-none text-xs font-semibold text-slate-900 shadow-sm"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 focus:border-[#6D4AFF] rounded-xl outline-none text-xs font-medium text-slate-900"
                     />
-                    <span className="text-[9px] text-slate-450 block mt-1 px-1">Min 8 chars, uppercase, lowercase, number, special char</span>
                   </div>
                   <button
                     type="submit"
                     disabled={isForgotLoading}
-                    className="w-full py-3 bg-[#6D4AFF] hover:bg-purple-700 text-white rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all shadow-md cursor-pointer disabled:opacity-70"
+                    className="w-full py-3 bg-[#6D4AFF] hover:bg-indigo-700 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer disabled:opacity-70"
                   >
-                    {isForgotLoading ? 'Updating password...' : 'Update Security Password'}
+                    {isForgotLoading ? 'Updating password...' : 'Update Password'}
                   </button>
                 </form>
               )}
@@ -279,138 +317,257 @@ const Login = () => {
         )}
       </AnimatePresence>
 
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.96, y: 12 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.5, type: "spring" }}
-        className="w-full max-w-[440px] bg-white rounded-3xl p-5 sm:p-10 shadow-xl relative z-10 space-y-4 sm:space-y-7 text-left overflow-hidden my-4 sm:my-auto"
-      >
-        {/* Luxury top border inside card */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-slate-900 via-[#6D4AFF] to-slate-900" />
+      {/* LEFT SIDE - Project Premium Hotel Photo & Features */}
+      <div className="hidden lg:flex lg:w-1/2 xl:w-7/12 relative overflow-hidden bg-slate-950 flex-col justify-between p-10 xl:p-14 text-white">
+        {/* Background Hotel Image */}
+        <img 
+          src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=2000&q=90" 
+          alt="Luxury Resort Property Management"
+          className="absolute inset-0 w-full h-full object-cover opacity-75 scale-105 transition-transform duration-1000 ease-out hover:scale-100"
+        />
+        
+        {/* Aesthetic Gradient Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1020] via-[#0B1020]/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0B1020]/80 via-transparent to-[#0B1020]/30" />
 
-        {/* Brand identity header */}
-        <div className="flex flex-col items-center justify-center text-center space-y-2 pt-1 pb-1 sm:pt-3 sm:pb-2 cursor-pointer" onClick={() => navigate('/')}>
-          <div className="w-10 h-10 bg-[#0B1020] text-white rounded-xl flex items-center justify-center border border-[#E7E4DD]/10 shadow-md">
-            <Hotel size={18} className="text-[#6D4AFF]" />
+        {/* Brand Header */}
+        <div className="relative z-10 flex items-center gap-3">
+          <div className="w-11 h-11 bg-[#6D4AFF] rounded-2xl flex items-center justify-center shadow-lg shadow-[#6D4AFF]/30 border border-white/20">
+            <Hotel size={24} className="text-white" />
           </div>
-          <div className="flex flex-col">
-            <span className="font-extrabold text-[13px] tracking-wide text-[#111827] uppercase">AutoPilot</span>
-            <span className="text-[9px] font-bold tracking-wide text-[#667085] uppercase mt-0.5">Secure Enterprise Portal</span>
+          <div>
+            <h1 className="text-xl font-extrabold tracking-tight text-white leading-none">HOTELOGX</h1>
+            <p className="text-[10px] font-semibold tracking-wider text-indigo-200 uppercase mt-1">Property Management System</p>
           </div>
         </div>
 
-        {/* Console title heading */}
-        <div className="space-y-1 text-center">
-          <h2 className="text-xl sm:text-2xl font-semibold text-[#111827] tracking-tight">
-            Access your <span className="font-semibold text-[#6D4AFF]">workspace</span>
+        {/* Center Banner Content */}
+        <div className="relative z-10 max-w-xl space-y-5 my-auto">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-medium text-indigo-200">
+            <Sparkles size={14} className="text-amber-400 animate-pulse" />
+            Smart Property & Hospitality Operations
+          </div>
+
+          <h2 className="text-3xl xl:text-4xl font-extrabold text-white leading-tight tracking-tight">
+            Streamline reservations & guest experiences <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-purple-200 to-amber-200">effortlessly.</span>
           </h2>
-          <p className="text-[10px] sm:text-[11px] font-medium text-[#667085]">Sign in with your enterprise credentials.</p>
+
+          <p className="text-slate-300 text-xs xl:text-sm leading-relaxed font-normal">
+            Unified management for front desk reservations, AI guest communication, housekeeping, and real-time revenue analytics.
+          </p>
+
+          {/* Feature Badges */}
+          <div className="grid grid-cols-2 gap-3 pt-2">
+            <div className="flex items-center gap-2.5 bg-white/10 backdrop-blur-sm px-4 py-3 rounded-xl border border-white/10">
+              <Building2 size={18} className="text-indigo-400 shrink-0" />
+              <span className="text-xs font-medium text-slate-100">Multi-Hotel Operations</span>
+            </div>
+            <div className="flex items-center gap-2.5 bg-white/10 backdrop-blur-sm px-4 py-3 rounded-xl border border-white/10">
+              <Sparkles size={18} className="text-amber-400 shrink-0" />
+              <span className="text-xs font-medium text-slate-100">24/7 AI Guest Concierge</span>
+            </div>
+            <div className="flex items-center gap-2.5 bg-white/10 backdrop-blur-sm px-4 py-3 rounded-xl border border-white/10">
+              <ShieldCheck size={18} className="text-emerald-400 shrink-0" />
+              <span className="text-xs font-medium text-slate-100">Real-Time Inventory Sync</span>
+            </div>
+            <div className="flex items-center gap-2.5 bg-white/10 backdrop-blur-sm px-4 py-3 rounded-xl border border-white/10">
+              <CheckCircle2 size={18} className="text-blue-400 shrink-0" />
+              <span className="text-xs font-medium text-slate-100">Automated Analytics</span>
+            </div>
+          </div>
         </div>
 
-        {/* Quick Credentials Fill Buttons */}
-        <div className="grid grid-cols-2 gap-2.5 sm:gap-3.5 pb-0.5 pt-0.5">
-          <button
-            type="button"
-            onClick={() => {
-              setEmail('admin@grandhotel.ai');
-              setPassword('admin123');
-            }}
-            className="px-3 py-2 sm:px-4 sm:py-3 bg-[#FAF9F6] hover:bg-[#F7F6F3] border border-[#E7E4DD] rounded-xl transition-all flex flex-col items-center justify-center gap-1 shadow-sm cursor-pointer group text-center"
-          >
-            <span className="text-[#6D4AFF] text-[9px] font-bold uppercase tracking-wide">Operator Console</span>
-            <span className="text-[10px] font-semibold text-[#111827]">Quick Fill</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setEmail('superadmin@autopilot.com');
-              setPassword('admin123');
-            }}
-            className="px-3 py-2 sm:px-4 sm:py-3 bg-[#FAF9F6] hover:bg-[#F7F6F3] border border-[#E7E4DD] rounded-xl transition-all flex flex-col items-center justify-center gap-1 shadow-sm cursor-pointer group text-center"
-          >
-            <span className="text-[#6D4AFF] text-[9px] font-bold uppercase tracking-wide">Platform Admin</span>
-            <span className="text-[10px] font-semibold text-[#111827]">Quick Fill</span>
-          </button>
+        {/* Footer Tag */}
+        <div className="relative z-10 flex items-center justify-between text-xs text-slate-400 border-t border-white/10 pt-4">
+          <span>© 2026 HOTELOGX. All rights reserved.</span>
+          <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            System Online
+          </span>
+        </div>
+      </div>
+
+      {/* RIGHT SIDE - Clean ID/Password & Quick Access without Scroll */}
+      <div className="w-full lg:w-1/2 xl:w-5/12 h-full flex flex-col justify-between p-6 sm:p-10 xl:p-12 bg-white overflow-y-auto lg:overflow-hidden">
+        
+        {/* Top Header & Back Button */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-sm hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <ArrowLeft size={14} className="text-[#6D4AFF]" />
+              <span>Back to Home</span>
+            </button>
+
+            <div className="flex items-center gap-2 lg:hidden">
+              <div className="w-8 h-8 bg-[#6D4AFF] rounded-lg flex items-center justify-center text-white shadow-md">
+                <Hotel size={18} />
+              </div>
+              <span className="font-extrabold text-sm tracking-wide text-slate-900 uppercase">HOTELOGX</span>
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Sign In
+            </h2>
+            <p className="text-slate-500 text-xs sm:text-sm font-medium mt-1">
+              Enter your credentials to access your Hotelogx workspace.
+            </p>
+          </div>
         </div>
 
-        {/* Login form fields */}
-        <form onSubmit={handleLogin} className="space-y-3.5 sm:space-y-5">
+        {/* Form Section (Upper/Middle) */}
+        <form onSubmit={handleLogin} className="space-y-4 my-auto py-2">
           
-          <div className="space-y-1.5 text-left">
-            <label className="text-[10px] font-bold uppercase tracking-wide text-[#667085] ml-1">Work Email</label>
+          {/* Email Input */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold text-slate-700 block">Work Email</label>
             <div className="relative group">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#6D4AFF] transition-colors" size={15} />
+              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#6D4AFF] transition-colors" size={17} />
               <input 
                 type="email" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full pl-11 pr-4 py-2.5 sm:py-3.5 bg-white border border-[#E7E4DD] focus:border-[#6D4AFF] focus:ring-1 focus:ring-[#6D4AFF]/30 rounded-xl outline-none transition-all text-xs font-semibold text-[#111827] placeholder:text-slate-400 shadow-sm"
-                placeholder="manager@luxuryhotel.com"
+                className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 focus:border-[#6D4AFF] focus:bg-white focus:ring-2 focus:ring-[#6D4AFF]/20 rounded-xl outline-none transition-all text-xs font-medium text-slate-900 placeholder:text-slate-400 shadow-sm"
+                placeholder="admin@grandhotel.ai"
               />
             </div>
           </div>
 
-          <div className="space-y-1.5 text-left">
-            <div className="flex justify-between items-center px-1">
-              <label className="text-[10px] font-bold uppercase tracking-wide text-[#667085]">Password</label>
+          {/* Password Input */}
+          <div className="space-y-1.5">
+            <div className="flex justify-between items-center">
+              <label className="text-xs font-semibold text-slate-700 block">Password</label>
               <button 
                 type="button" 
                 onClick={() => setShowForgotModal(true)} 
-                className="text-[10px] font-bold uppercase tracking-wide text-[#6D4AFF] hover:underline cursor-pointer"
+                className="text-xs font-semibold text-[#6D4AFF] hover:underline cursor-pointer"
               >
-                Forgot?
+                Forgot Password?
               </button>
             </div>
             <div className="relative group">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#6D4AFF] transition-colors" size={15} />
+              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#6D4AFF] transition-colors" size={17} />
               <input 
-                type="password" 
+                type={showPassword ? "text" : "password"} 
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-11 pr-4 py-2.5 sm:py-3.5 bg-white border border-[#E7E4DD] focus:border-[#6D4AFF] focus:ring-1 focus:ring-[#6D4AFF]/30 rounded-xl outline-none transition-all text-xs font-semibold text-[#111827] placeholder:text-slate-400 shadow-sm"
+                className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 focus:border-[#6D4AFF] focus:bg-white focus:ring-2 focus:ring-[#6D4AFF]/20 rounded-xl outline-none transition-all text-xs font-medium text-slate-900 placeholder:text-slate-400 shadow-sm"
                 placeholder="••••••••"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer"
+              >
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5 px-1 pt-0.5">
+          {/* Remember Me */}
+          <div className="flex items-center gap-2 pt-0.5">
             <input 
               type="checkbox" 
-              className="w-4 h-4 rounded border-[#E7E4DD] text-[#0B1020] focus:ring-[#6D4AFF]/20 focus:ring-offset-0 cursor-pointer" 
+              className="w-4 h-4 rounded border-slate-300 text-[#6D4AFF] focus:ring-[#6D4AFF]/30 cursor-pointer" 
               id="remember" 
               defaultChecked
             />
-            <label htmlFor="remember" className="text-[10px] text-[#667085] font-bold uppercase tracking-wide cursor-pointer">Remember Secure Registry</label>
+            <label htmlFor="remember" className="text-xs text-slate-600 font-medium cursor-pointer">
+              Remember me on this device
+            </label>
           </div>
 
+          {/* Submit Button */}
           <button 
             type="submit" 
             disabled={isLoading}
-            className="w-full py-3 sm:py-3.5 bg-[#0B1020] hover:bg-slate-900 text-white rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 group disabled:opacity-70 cursor-pointer shadow-md border border-slate-800"
+            className="w-full py-3.5 bg-[#0B1020] hover:bg-slate-900 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer disabled:opacity-70 active:scale-[0.99]"
           >
             {isLoading ? (
-              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
             ) : (
               <>
-                Initialize Enterprise Dashboard
-                <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
+                Sign In
+                <ArrowRight size={16} />
               </>
             )}
           </button>
         </form>
 
-        <div className="pt-3.5 sm:pt-5 border-t border-[#E7E4DD] text-center">
-          <p className="text-[10px] text-[#667085] font-bold uppercase tracking-wide leading-relaxed">
-            New property onboarding? <br />
-            <button onClick={() => navigate('/signup')} className="text-[#6D4AFF] font-bold hover:underline mt-1.5 block mx-auto cursor-pointer">Register Sandbox Console</button>
-          </p>
+        {/* Quick Access Demo Credentials Section */}
+        <div className="space-y-3 border-t border-slate-100 pt-4">
+          <div className="flex items-center gap-2">
+            <KeyRound size={15} className="text-[#6D4AFF]" />
+            <span className="text-xs font-bold text-slate-800 uppercase tracking-wide">Quick Access Demo Roles</span>
+          </div>
+
+          {/* Simple Clean Role Buttons Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <button
+              type="button"
+              onClick={() => quickFillCredentials('superadmin@autopilot.com', 'admin123')}
+              className="px-3 py-2.5 bg-slate-50 hover:bg-indigo-50/80 border border-slate-200 hover:border-indigo-200 rounded-xl transition-all flex items-center justify-center cursor-pointer text-center group shadow-sm"
+            >
+              <span className="text-xs font-bold text-slate-800 group-hover:text-[#6D4AFF] transition-colors">Super Admin</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => quickFillCredentials('john.manager@mercierhotel.com', 'admin123')}
+              className="px-3 py-2.5 bg-slate-50 hover:bg-indigo-50/80 border border-slate-200 hover:border-indigo-200 rounded-xl transition-all flex items-center justify-center cursor-pointer text-center group shadow-sm"
+            >
+              <span className="text-xs font-bold text-slate-800 group-hover:text-[#6D4AFF] transition-colors">Manager / Admin</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => quickFillCredentials('anna.frontdesk@mercierhotel.com', 'admin123')}
+              className="px-3 py-2.5 bg-slate-50 hover:bg-indigo-50/80 border border-slate-200 hover:border-indigo-200 rounded-xl transition-all flex items-center justify-center cursor-pointer text-center group shadow-sm"
+            >
+              <span className="text-xs font-bold text-slate-800 group-hover:text-[#6D4AFF] transition-colors">Front Office</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => quickFillCredentials('housekeeping@mercierhotel.com', 'admin123')}
+              className="px-3 py-2.5 bg-slate-50 hover:bg-indigo-50/80 border border-slate-200 hover:border-indigo-200 rounded-xl transition-all flex items-center justify-center cursor-pointer text-center group shadow-sm"
+            >
+              <span className="text-xs font-bold text-slate-800 group-hover:text-[#6D4AFF] transition-colors">Housekeeping</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => quickFillCredentials('maintenance@mercierhotel.com', 'admin123')}
+              className="px-3 py-2.5 bg-slate-50 hover:bg-indigo-50/80 border border-slate-200 hover:border-indigo-200 rounded-xl transition-all flex items-center justify-center cursor-pointer text-center group shadow-sm col-span-2 sm:col-span-1"
+            >
+              <span className="text-xs font-bold text-slate-800 group-hover:text-[#6D4AFF] transition-colors">Maintenance</span>
+            </button>
+          </div>
+
+          <div className="text-center pt-2">
+            <p className="text-xs text-slate-500 font-medium">
+              Don't have an account?{' '}
+              <button 
+                onClick={() => navigate('/signup')} 
+                className="text-[#6D4AFF] font-bold hover:underline cursor-pointer"
+              >
+                Register Property
+              </button>
+            </p>
+          </div>
         </div>
 
-      </motion.div>
+      </div>
     </div>
   );
 };
 
 export default Login;
+

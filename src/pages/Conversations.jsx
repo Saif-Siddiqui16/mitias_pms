@@ -30,7 +30,29 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { API_BASE_URL } from '../config';
 
-const initialConversations = [];
+const initialConversations = [
+  {
+    id: 'conv-sarah-45874',
+    guest: 'Sarah Johnson',
+    lastMsg: 'Can I check in earlier?',
+    time: '10:14 AM',
+    mode: 'AI',
+    channel: 'whatsapp',
+    room: 'Deluxe King',
+    status: 'VIP Guest',
+    stay: '29 July - 31 July',
+    confidence: '98%',
+    bookingNo: '#45874',
+    arrival: '29 July',
+    departure: '31 July',
+    guestsCount: 2,
+    isVip: true,
+    messages: [
+      { id: 'm-1', sender: 'guest', text: 'Can I check in earlier?', time: '10:14 AM' },
+      { id: 'm-2', sender: 'ai', text: 'Yes.\nYour room is expected to be ready around 12:30.\n\nAn early check-in can be arranged for €20.\n\nWould you like me to add this?', time: '10:15 AM' }
+    ]
+  }
+];
 
 const Conversations = () => {
   const navigate = useNavigate();
@@ -795,6 +817,72 @@ const Conversations = () => {
                   <p className="text-[10px] font-black text-slate-900 truncate">{activeConv.stay}</p>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Reservation Details */}
+          <div className="space-y-3">
+            <h3 className="text-[9px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2">
+              Reservation Summary
+            </h3>
+            <div className="bg-white p-3 rounded-xl border border-slate-100 shadow-sm space-y-2 text-xs">
+              <div className="flex justify-between">
+                <span className="text-slate-400 font-semibold">Booking</span>
+                <span className="font-bold text-slate-900 font-mono">{activeConv.bookingNo || '#45874'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-400 font-semibold">Arrival</span>
+                <span className="font-bold text-slate-900">{activeConv.arrival || '29 July'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-400 font-semibold">Departure</span>
+                <span className="font-bold text-slate-900">{activeConv.departure || '31 July'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-400 font-semibold">Room</span>
+                <span className="font-bold text-slate-900">{activeConv.room || 'Deluxe King'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-400 font-semibold">Guests</span>
+                <span className="font-bold text-slate-900">{activeConv.guestsCount || 2}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-400 font-semibold">VIP Status</span>
+                <span className="font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded text-[10px]">
+                  {activeConv.isVip ? 'Yes (VIP)' : 'No'}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Suggested Upsell Actions */}
+          <div className="space-y-2">
+            <h3 className="text-[9px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2">
+              Suggested Actions
+            </h3>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { name: '+ Add Breakfast', price: '€25' },
+                { name: '+ Late Checkout', price: '€30' },
+                { name: '+ Airport Taxi', price: '€45' },
+                { name: '+ Parking', price: '€15' }
+              ].map((sug, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    setConvs(prev => prev.map(c =>
+                      c.id === activeConv.id ? {
+                        ...c,
+                        messages: [...c.messages, { id: Date.now(), sender: 'ai', text: `✓ Added ${sug.name} (${sug.price}) to reservation folio.`, time: timeNow }]
+                      } : c
+                    ));
+                  }}
+                  className="px-2.5 py-2 bg-purple-50/70 hover:bg-purple-100 text-purple-800 border border-purple-200 rounded-xl text-[10px] font-bold transition-all text-center cursor-pointer shadow-sm"
+                >
+                  {sug.name}
+                </button>
+              ))}
             </div>
           </div>
 

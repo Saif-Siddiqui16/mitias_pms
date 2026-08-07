@@ -283,7 +283,7 @@ const SubscriptionBilling = () => {
                   <div className="space-y-6">
                     <div>
                       <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Current Plan</p>
-                      <h2 className="text-3xl font-normal font-serif text-[#111827] mt-1">AutoPilot {sub.planName || 'Professional'}</h2>
+                      <h2 className="text-3xl font-extrabold text-slate-900 mt-1">{sub.planName || 'Professional'} Plan</h2>
                       <p className="text-xs text-[#667085] mt-1">{planDetails.desc}</p>
                     </div>
 
@@ -616,7 +616,7 @@ const SubscriptionBilling = () => {
           {activeTab === 'plans' && (
             <div className="space-y-8">
               <div>
-                <h3 className="text-xl font-normal font-serif text-slate-900">Select AutoPilot Subscription Tier</h3>
+                <h3 className="text-xl font-bold text-slate-900">Select Subscription Tier</h3>
                 <p className="text-xs text-slate-500 mt-1">Upgrade or downgrade your live integration shard instantly.</p>
               </div>
 
@@ -699,7 +699,7 @@ const SubscriptionBilling = () => {
                         <Badge variant="indigo" className="text-[8px] px-2 py-0.5 font-mono font-bold tracking-wider">Awaiting Authorization</Badge>
                       </div>
                       <h4 className="text-lg font-black text-slate-800 mt-1">
-                        AutoPilot {activePlanTier.name}
+                        {activePlanTier.name} Tier
                       </h4>
                       <p className="text-xs text-slate-500 font-semibold mt-0.5">
                         {activePlanTier.rooms} • Dedicated multi-tenant isolated database container Shard active
@@ -826,7 +826,7 @@ const SubscriptionBilling = () => {
                           <Zap size={40} className="text-[#6D4AFF]" />
                         </div>
                         <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest font-mono">Selected Tier</p>
-                        <h4 className="text-lg font-black text-slate-800 mt-1">AutoPilot {activePlanTier.id}</h4>
+                        <h4 className="text-lg font-black text-slate-800 mt-1">{activePlanTier.id} Tier</h4>
                         <p className="text-xs text-slate-400 font-bold uppercase tracking-wider font-mono mt-0.5">{activePlanTier.rooms}</p>
                         <div className="flex items-baseline mt-4">
                           <span className="text-3.5xl font-black text-[#6D4AFF]">${activePlanTier.price}</span>
@@ -945,15 +945,15 @@ const SubscriptionBilling = () => {
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Current Active Shard</p>
-                  <p className="text-sm font-black text-slate-800">AutoPilot {sub.planName || 'Professional'}</p>
+                  <p className="text-sm font-black text-slate-800">{sub.planName || 'Professional'} Plan</p>
                   <p className="text-xs font-mono text-slate-500">${sub.price || 399}/mo</p>
                 </div>
                 <div className="p-2.5 bg-indigo-50 rounded-xl text-[#6D4AFF] shrink-0">
                   <ArrowUpRight size={20} />
                 </div>
                 <div className="text-right">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">New Target Shard</p>
-                  <p className="text-sm font-black text-[#6D4AFF]">AutoPilot {selectedPlan.id}</p>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Target Tier</p>
+                  <p className="text-sm font-black text-[#6D4AFF]">{selectedPlan.id} Tier</p>
                   <p className="text-xs font-mono text-[#6D4AFF]">${selectedPlan.price}/mo</p>
                 </div>
               </div>

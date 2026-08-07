@@ -21,10 +21,10 @@ export const Layout = () => {
 
   const isBillingRoute = location.pathname.includes('/subscription-billing') || location.pathname.includes('/subscription_billing');
   const showLockScreen = isLocked && !isBillingRoute;
-  const edgeTopClass = activeWorkspace ? 'top-[108px]' : 'top-16';
+  const edgeTopClass = activeWorkspace ? 'top-[140px]' : 'top-[100px]';
   const mainClassName = isEdgeToEdge
-    ? `fixed ${edgeTopClass} left-0 right-0 bottom-0 lg:left-64 overflow-hidden px-0 pt-0 sm:pt-2 sm:px-6 lg:px-8 lg:pt-2 pb-2 transition-all`
-    : `flex-1 ${activeWorkspace ? 'mt-[108px]' : 'mt-16'} overflow-x-hidden px-2 pt-1.5 sm:pt-2 sm:px-6 lg:px-8 lg:pt-2 pb-8 transition-all relative`;
+    ? `fixed ${edgeTopClass} left-0 right-0 bottom-0 overflow-hidden px-0 pt-0 sm:pt-2 sm:px-6 lg:px-8 lg:pt-2 pb-2 transition-all`
+    : `flex-1 ${activeWorkspace ? 'mt-[140px]' : 'mt-[100px]'} overflow-x-hidden px-2 pt-1.5 sm:pt-2 sm:px-6 lg:px-8 lg:pt-2 pb-8 transition-all relative`;
 
   const renderLockScreen = () => {
     const isSuspended = hotelSubscription?.status === 'Suspended' || hotelSubscription?.status === 'Failed Payment';
@@ -120,7 +120,7 @@ export const Layout = () => {
           </div>
           
           <div className="text-[9px] text-slate-400 font-bold uppercase tracking-wider font-mono">
-            🔒 AutoPilot Multi-Tenant Secure Payment Shield
+            🔒 HOTELOGX Multi-Tenant Secure Payment Shield
           </div>
         </div>
       </div>
@@ -130,7 +130,7 @@ export const Layout = () => {
   return (
     <div className="min-h-screen bg-[#F7F6F3] flex min-w-0">
       <Sidebar />
-      <div className="flex-1 lg:ml-64 min-h-screen flex flex-col min-w-0 relative">
+      <div className="flex-1 min-h-screen flex flex-col min-w-0 relative">
         <Navbar />
         <main className={mainClassName}>
           <div className={`max-w-[1600px] mx-auto w-full ${isEdgeToEdge ? 'h-full min-h-0' : 'min-h-[calc(100vh-160px)]'} relative`}>
@@ -145,3 +145,4 @@ export const Layout = () => {
     </div>
   );
 };
+

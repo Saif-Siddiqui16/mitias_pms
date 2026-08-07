@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useApp } from "../context/AppContext";
+import { useApp, ROLES } from "../context/AppContext";
 import { API_BASE_URL } from "../config";
 
 // --- SUB-PANEL: AI TONE & STYLE ---
@@ -881,7 +881,7 @@ const BillingPlanPanel = () => {
 
 // --- MAIN SETTINGS EXPORT COMPONENT ---
 const Settings = () => {
-  const { addToast } = useApp();
+  const { addToast, role } = useApp();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("tone");
   const [isSaving, setIsSaving] = useState(false);
@@ -963,70 +963,281 @@ const Settings = () => {
     }
   };
 
-  const tabs = [
+// --- SUB-PANEL: HOTEL POLICIES & KNOWLEDGE UPLOAD ---
+const KnowledgePolicyPanel = ({ settings, onChange }) => {
+  const [policiesText, setPoliciesText] = useState(
+    settings?.hotelPoliciesText || 
+    "• Check-in time: 14:00 | Check-out time: 11:00\n• Early Check-in: Available from 12:00 for €20 surcharge.\n• Breakfast Hours: 07:00 - 10:30 AM in Main Dining Room.\n• Free High-Speed WiFi network: MercierGuest (Password: Mercier2026!)\n• Pet Policy: Small pets under 10kg allowed for €15/night."
+  );
+  const [uploadedDocs, setUploadedDocs] = useState([
+    { name: "Mercier_Hotel_Guest_Policy_2026.pdf", size: "1.2 MB", date: "Uploaded Today" },
+    { name: "House_Rules_and_Amenities.docx", size: "450 KB", date: "Uploaded 3 days ago" }
+  ]);
+  const [isSavingPolicy, setIsSavingPolicy] = useState(false);
+  const fileInputRef = useRef(null);
+
+  const handleFileUpload = (e) => {
+    const files = e.target.files;
+    if (files && files[0]) {
+      const file = files[0];
+      setUploadedDocs(prev => [
+        { name: file.name, size: `${(file.size / 1024).toFixed(0)} KB`, date: "Just now" },
+        ...prev
+      ]);
+    }
+  };
+
+  return (
+    <div className="space-y-5 text-left animate-in fade-in duration-300">
+      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+        <div className="border-b border-slate-100 pb-3">
+          <h3 className="text-base font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            <span>📄</span> Hotel Policies & Knowledge Upload
+          </h3>
+          <p className="text-slate-500 text-xs font-medium mt-0.5">
+            Upload your hotel's rules, FAQs, and policy documents for AI training.
+          </p>
+        </div>
+
+        {/* Policy Text Editor */}
+        <div className="space-y-2">
+          <label className="text-xs font-bold text-slate-700 uppercase tracking-wider font-mono">
+            Hotel Operating Guidelines & Rules (Text Notes)
+          </label>
+          <textarea
+            rows={6}
+            value={policiesText}
+            onChange={(e) => setPoliciesText(e.target.value)}
+            placeholder="Type or paste hotel policies here (e.g. Check-in time, Breakfast hours, WiFi password)..."
+            className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-900 outline-none focus:bg-white focus:border-[#6D4AFF] focus:ring-2 focus:ring-purple-100 font-mono leading-relaxed"
+          />
+        </div>
+
+        {/* Document Upload Area */}
+        <div className="space-y-3">
+          <label className="text-xs font-bold text-slate-700 uppercase tracking-wider font-mono">
+            Upload Policy Documents & PDFs
+          </label>
+          <input 
+            type="file" 
+            ref={fileInputRef} 
+            onChange={handleFileUpload} 
+            className="hidden" 
+            accept=".pdf,.doc,.docx,.txt"
+          />
+          <div 
+            onClick={() => fileInputRef.current?.click()}
+            className="border-2 border-dashed border-purple-200 hover:border-[#6D4AFF] bg-purple-50/40 p-6 rounded-2xl text-center cursor-pointer transition-all group"
+          >
+            <div className="w-10 h-10 bg-purple-100 text-[#6D4AFF] rounded-xl flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform">
+              📁
+            </div>
+            <p className="text-xs font-bold text-slate-800">
+              Click to browse or drop policy documents here
+            </p>
+            <p className="text-[10px] text-slate-400 font-medium mt-1">
+              Supports PDF, DOCX, TXT files up to 25MB
+            </p>
+          </div>
+
+          {/* Uploaded Documents List */}
+          <div className="space-y-2 pt-2">
+            <span className="text-[10px] font-bold text-slate-400 uppercase font-mono">Active Policy Files</span>
+            <div className="space-y-2">
+              {uploadedDocs.map((doc, i) => (
+                <div key={i} className="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-purple-600 font-bold">📄</span>
+                    <span className="font-bold text-slate-800">{doc.name}</span>
+                    <span className="text-[10px] text-slate-400 font-mono">({doc.size})</span>
+                  </div>
+                  <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                    Active Knowledge
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+// --- SUB-PANEL: WHATSAPP & EMAIL DETAILS ---
+const WhatsAppEmailDetailsPanel = ({ settings, onChange }) => {
+  const [waNumber, setWaNumber] = useState(settings?.whatsappNumber || "+44 7700 900077");
+  const [waToken, setWaToken] = useState(settings?.whatsappToken || "EAAG...39281x");
+  const [emailAddress, setEmailAddress] = useState(settings?.senderEmail || "reservations@mercierhotel.com");
+  const [smtpServer, setSmtpServer] = useState(settings?.smtpHost || "smtp.sendgrid.net");
+  const [isWaConnected, setIsWaConnected] = useState(true);
+
+  return (
+    <div className="space-y-5 text-left animate-in fade-in duration-300">
+      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+        <div className="border-b border-slate-100 pb-3">
+          <h3 className="text-base font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            <span>📱</span> WhatsApp & Email Integration Details
+          </h3>
+          <p className="text-slate-500 text-xs font-medium mt-0.5">
+            Configure channel credentials and authorizations for WhatsApp Business API and Email dispatch.
+          </p>
+        </div>
+
+        {/* WhatsApp Integration Box */}
+        <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center font-bold text-lg">
+                💬
+              </div>
+              <div>
+                <h4 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider font-mono">WhatsApp Business API</h4>
+                <p className="text-[11px] text-slate-500 font-medium">Guest messaging channel status</p>
+              </div>
+            </div>
+            <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase font-mono flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Connected & Authorized
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">
+                WhatsApp Registered Phone Number
+              </label>
+              <input
+                type="text"
+                value={waNumber}
+                onChange={(e) => setWaNumber(e.target.value)}
+                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-[#6D4AFF]"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">
+                Meta Business API Authorization Token
+              </label>
+              <input
+                type="password"
+                value={waToken}
+                onChange={(e) => setWaToken(e.target.value)}
+                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-[#6D4AFF]"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Email Integration Box */}
+        <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-indigo-100 text-indigo-700 rounded-xl flex items-center justify-center font-bold text-lg">
+                ✉️
+              </div>
+              <div>
+                <h4 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider font-mono">Email Dispatch Server</h4>
+                <p className="text-[11px] text-slate-500 font-medium">Guest confirmation & alert emails</p>
+              </div>
+            </div>
+            <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-[10px] font-bold uppercase font-mono flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+              Active Dispatcher
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">
+                Sender Email Address
+              </label>
+              <input
+                type="email"
+                value={emailAddress}
+                onChange={(e) => setEmailAddress(e.target.value)}
+                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-[#6D4AFF]"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">
+                SMTP Dispatch Host
+              </label>
+              <input
+                type="text"
+                value={smtpServer}
+                onChange={(e) => setSmtpServer(e.target.value)}
+                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:border-[#6D4AFF]"
+              />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+  const allTabs = [
+    {
+      id: "knowledge",
+      label: "Knowledge & Hotel Policies",
+      icon: Database,
+      desc: "UPLOAD HOTEL RULES & DOCUMENTS",
+    },
+    {
+      id: "integrations",
+      label: "WhatsApp & Email Details",
+      icon: Bell,
+      desc: "AUTHORIZATION & CONNECTIONS",
+    },
     {
       id: "tone",
-      label: "AI Tone & Style",
+      label: "AI Persona & Voice",
       icon: Bot,
-      desc: "VOICE PERSONA & SIGNATURE",
-    },
-    {
-      id: "permissions",
-      label: "AI Permissions",
-      icon: Sliders,
-      desc: "MAX ALLOWED DECISION BOUNDS",
-    },
-    {
-      id: "escalation",
-      label: "Escalation Rules",
-      icon: ShieldAlert,
-      desc: "TEAM ROUTING CONFIGURATION",
+      desc: "VOICE STYLE & SIGNATURE",
     },
     {
       id: "alerts",
-      label: "Staff Alerts",
-      icon: Bell,
-      desc: "SHIFTS & NOTIFICATIONS",
-    },
-    {
-      id: "systems",
-      label: "Connected Systems",
-      icon: Database,
-      desc: "PMS & WEBHOOK BRIDGES",
-      route: "/app/integrations",
+      label: "Staff Alerts & Escalation",
+      icon: ShieldAlert,
+      desc: "NOTIFICATIONS & SHIFT PAGING",
     },
     {
       id: "account",
-      label: "My Account",
+      label: "Hotel Profile & Account",
       icon: Lock,
-      desc: "EMAIL & PASSWORD",
+      desc: "EMAIL & SECURITY",
     },
     {
-      id: "billing",
-      label: "Billing",
-      icon: CreditCard,
-      desc: "USAGE & BILLING",
+      id: "systems",
+      label: "Advanced System Health",
+      icon: Sliders,
+      desc: "TECHNICAL MONITORING",
+      superAdminOnly: true,
     },
   ];
 
+  const tabs = allTabs.filter(tab => !tab.superAdminOnly || role === ROLES.SUPER_ADMIN);
+
   const renderContent = (tabId) => {
     switch (tabId) {
+      case "knowledge":
+        return <KnowledgePolicyPanel settings={settings} onChange={handleChange} />;
+      case "integrations":
+        return <WhatsAppEmailDetailsPanel settings={settings} onChange={handleChange} />;
       case "tone":
         return <AIToneStylePanel settings={settings} onChange={handleChange} />;
-      case "permissions":
-        return <AIPermissionsPanel settings={settings} onChange={handleChange} />;
-      case "escalation":
-        return <EscalationRulesPanel settings={settings} onChange={handleChange} />;
       case "alerts":
         return <StaffAlertsPanel settings={settings} onChange={handleChange} />;
       case "systems":
         return <ConnectedSystemsPanel />;
       case "account":
         return <AccountSecurityPanel settings={settings} onChange={handleChange} />;
-      case "billing":
-        return <BillingPlanPanel />;
       default:
-        return <AIToneStylePanel settings={settings} onChange={handleChange} />;
+        return <KnowledgePolicyPanel settings={settings} onChange={handleChange} />;
     }
   };
 

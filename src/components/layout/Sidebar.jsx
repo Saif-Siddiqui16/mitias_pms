@@ -127,7 +127,7 @@ export const Sidebar = () => {
       {/* Sidebar Drawer */}
       <div className={cn(
         "flex flex-col h-full bg-white border-r border-[#E7E4DD] w-64 fixed left-0 top-0 z-50 transition-transform duration-300 ease-in-out",
-        isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        isSidebarOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full"
       )}>
         {/* Sleek, Premium Brand block with matching landing page branding */}
         <div className="h-16 px-6 flex items-center gap-3 border-b border-[#E7E4DD]/60">
@@ -135,7 +135,7 @@ export const Sidebar = () => {
             <Hotel size={16} className="text-[#6D4AFF]" />
           </div>
           <div className="flex flex-col text-left">
-            <span className="font-extrabold text-[12.5px] tracking-tight text-[#111827] uppercase tracking-wider font-mono">AutoPilot</span>
+            <span className="font-extrabold text-[12.5px] tracking-tight text-[#111827] uppercase tracking-wider font-mono">HOTELOGX CONNECT</span>
             <span className="text-[7.5px] font-bold tracking-widest text-[#667085] uppercase mt-0.5 font-mono">
               {activeWorkspace ? 'WORKSPACE VIEW' : role === ROLES.SUPER_ADMIN ? 'OPERATIONS' : 'AI HOTEL OPERATIONS'}
             </span>

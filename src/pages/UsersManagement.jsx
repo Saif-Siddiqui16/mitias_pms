@@ -220,6 +220,7 @@ export const UsersManagement = () => {
                   onChange={(e) => setRole(e.target.value)}
                   className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 focus:border-[#6D4AFF] focus:bg-white rounded-xl outline-none text-xs font-medium text-slate-900"
                 >
+                  <option value="Hotel Admin">Hotel Admin</option>
                   <option value="Manager">Manager</option>
                   <option value="Front Office">Front Office</option>
                   <option value="Housekeeping Manager">Housekeeping Manager</option>

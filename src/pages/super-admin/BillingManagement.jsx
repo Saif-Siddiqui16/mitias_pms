@@ -142,7 +142,7 @@ const BillingManagement = () => {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E7E4DD] pb-6">
         <div>
-          <h1 className="text-3xl font-normal font-serif text-[#111827] tracking-tight">Billing & Revenue Infrastructure</h1>
+          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Billing & Revenue Infrastructure</h1>
           <p className="text-xs text-[#667085] font-medium mt-1">Super Admin platform pricing, active hotel subscriptions and MRR metrics.</p>
         </div>
         <Button onClick={loadAllData} variant="secondary" className="gap-2 text-[10px] uppercase font-mono py-2 bg-white">
@@ -197,7 +197,7 @@ const BillingManagement = () => {
                   <div className="flex justify-between items-start">
                     <div>
                       <p className="text-[#667085] text-[9px] font-bold uppercase tracking-widest font-mono">Monthly Recurring Revenue</p>
-                      <p className="text-3xl font-normal font-serif text-[#111827] mt-1">${(metrics?.mrr || 0).toLocaleString()}</p>
+                      <p className="text-3xl font-extrabold text-slate-900 mt-1">${(metrics?.mrr || 0).toLocaleString()}</p>
                       <span className="text-[10px] text-emerald-600 font-bold font-mono mt-1 block">Live MRR Ledger</span>
                     </div>
                     <div className="w-10 h-10 bg-purple-50 text-[#6D4AFF] border border-purple-100 rounded-xl flex items-center justify-center">
@@ -210,7 +210,7 @@ const BillingManagement = () => {
                   <div className="flex justify-between items-start">
                     <div>
                       <p className="text-[#667085] text-[9px] font-bold uppercase tracking-widest font-mono">Cumulative Platform Revenue</p>
-                      <p className="text-3xl font-normal font-serif text-[#111827] mt-1">${(metrics?.lifetimeRevenue || 0).toLocaleString()}</p>
+                      <p className="text-3xl font-extrabold text-slate-900 mt-1">${(metrics?.lifetimeRevenue || 0).toLocaleString()}</p>
                       <span className="text-[10px] text-slate-400 font-bold font-mono mt-1 block">Settled ACH volume</span>
                     </div>
                     <div className="w-10 h-10 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-xl flex items-center justify-center">
@@ -223,7 +223,7 @@ const BillingManagement = () => {
                   <div className="flex justify-between items-start">
                     <div>
                       <p className="text-[#667085] text-[9px] font-bold uppercase tracking-widest font-mono">Active Subscriptions</p>
-                      <p className="text-3xl font-normal font-serif text-[#111827] mt-1">{metrics?.activeCount || 0}</p>
+                      <p className="text-3xl font-extrabold text-slate-900 mt-1">{metrics?.activeCount || 0}</p>
                       <span className="text-[10px] text-slate-400 font-bold font-mono mt-1 block">Live deployments</span>
                     </div>
                     <div className="w-10 h-10 bg-blue-50 text-blue-600 border border-blue-100 rounded-xl flex items-center justify-center">
@@ -236,7 +236,7 @@ const BillingManagement = () => {
                   <div className="flex justify-between items-start">
                     <div>
                       <p className="text-[#667085] text-[9px] font-bold uppercase tracking-widest font-mono">Failed Payment Alerts</p>
-                      <p className={`text-3xl font-normal font-serif mt-1 ${(metrics?.failedCount || 0) > 0 ? 'text-rose-600 font-bold' : 'text-[#111827]'}`}>{metrics?.failedCount || 0}</p>
+                      <p className={`text-3xl mt-1 ${(metrics?.failedCount || 0) > 0 ? 'text-rose-600 font-extrabold' : 'text-slate-900 font-extrabold'}`}>{metrics?.failedCount || 0}</p>
                       <span className="text-[10px] text-slate-400 font-bold font-mono mt-1 block">Overdue accounts</span>
                     </div>
                     <div className={`w-10 h-10 ${(metrics?.failedCount || 0) > 0 ? 'bg-rose-50 text-rose-600 border-rose-100 animate-pulse' : 'bg-slate-50 text-slate-400'} border rounded-xl flex items-center justify-center`}>
@@ -279,13 +279,13 @@ const BillingManagement = () => {
                     <div className="space-y-4 py-2 text-left">
                       <div className="p-4 bg-slate-50 border border-slate-100 rounded-xl">
                         <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest font-mono">Platform Health Status</p>
-                        <p className="text-base font-normal font-serif text-[#111827] mt-1">Excellent (No Blockages)</p>
+                        <p className="text-base font-bold text-slate-900 mt-1">Excellent (No Blockages)</p>
                         <span className="text-[10px] text-slate-400 font-semibold mt-1 block">Dynamic direct debit nodes active.</span>
                       </div>
 
                       <div className="p-4 bg-slate-50 border border-slate-100 rounded-xl">
-                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest font-mono">Next Auto-Billing Cycle</p>
-                        <p className="text-base font-normal font-serif text-[#111827] mt-1">Daily Automated Ledger Check</p>
+                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest font-mono">Auditing Synchronization</p>
+                        <p className="text-base font-bold text-slate-900 mt-1">Daily Automated Ledger Check</p>
                         <span className="text-[10px] text-slate-400 font-semibold mt-1 block">Processes outstanding ACH files.</span>
                       </div>
                     </div>
@@ -481,7 +481,7 @@ const BillingManagement = () => {
             <div className="space-y-6 text-left">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <h3 className="text-xl font-normal font-serif text-slate-900">Standard Plan Packaging</h3>
+                  <h3 className="text-xl font-bold text-slate-900">Standard Plan Packaging</h3>
                   <p className="text-xs text-slate-500 mt-1">Configure pricing points and metadata for the AutoPilot Hotelogx integration packages.</p>
                 </div>
                 <Button 

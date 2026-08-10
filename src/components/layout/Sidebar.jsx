@@ -25,6 +25,7 @@ import { cn } from '../../utils/cn';
 
 const platformNav = [
   { name: 'Dashboard', icon: LayoutDashboard, path: '/app', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.HOTEL_ADMIN, ROLES.FRONT_OFFICE, ROLES.HOUSEKEEPING_MANAGER, ROLES.HOUSEKEEPING_STAFF, ROLES.MAINTENANCE_MANAGER, ROLES.MAINTENANCE_STAFF] },
+  { name: 'Front Office', icon: Building2, path: '/app/front-office', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.HOTEL_ADMIN, ROLES.FRONT_OFFICE] },
   { name: 'Guest Conversations', icon: MessageSquare, path: '/app/conversations', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.GUEST_ASSISTANT, ROLES.HOTEL_ADMIN, ROLES.FRONT_OFFICE] },
   { name: 'Housekeeping', icon: Sparkles, path: '/app/housekeeping', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.HOTEL_ADMIN, ROLES.FRONT_OFFICE, ROLES.HOUSEKEEPING_MANAGER, ROLES.HOUSEKEEPING_STAFF] },
   { name: 'Maintenance', icon: Wrench, path: '/app/maintenance', roles: [ROLES.PLATFORM_OPERATOR, ROLES.MANAGER, ROLES.HOTEL_ADMIN, ROLES.FRONT_OFFICE, ROLES.MAINTENANCE_MANAGER, ROLES.MAINTENANCE_STAFF] },

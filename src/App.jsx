@@ -25,6 +25,7 @@ import SubscriptionBilling from './pages/SubscriptionBilling';
 import BillingManagement from './pages/super-admin/BillingManagement';
 import HousekeepingDashboard from './pages/HousekeepingDashboard';
 import MaintenanceDashboard from './pages/MaintenanceDashboard';
+import FrontOffice from './pages/FrontOffice';
 import UsersManagement from './pages/UsersManagement';
 import { ROLES } from './context/AppContext';
 
@@ -45,6 +46,8 @@ function App() {
           {/* Protected Enterprise Platform Dashboard */}
           <Route path="/app" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
             <Route index element={<Dashboard />} />
+            <Route path="front-office" element={<FrontOffice />} />
+            <Route path="frontoffice" element={<FrontOffice />} />
             <Route path="conversations" element={<Conversations />} />
             <Route path="housekeeping" element={<HousekeepingDashboard />} />
             <Route path="maintenance" element={<MaintenanceDashboard />} />

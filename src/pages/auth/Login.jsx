@@ -54,13 +54,13 @@ const Login = () => {
         redir = '/app';
       } else if (isHousekeeping) {
         mapped = ROLES.HOUSEKEEPING_MANAGER;
-        redir = '/app/housekeeping';
+        redir = '/app';
       } else if (isMaintenance) {
         mapped = ROLES.MAINTENANCE_MANAGER;
-        redir = '/app/maintenance';
+        redir = '/app';
       } else if (isFrontOffice) {
         mapped = ROLES.FRONT_OFFICE;
-        redir = '/app/conversations';
+        redir = '/app';
       } else if (isAdmin) {
         mapped = ROLES.MANAGER;
         redir = '/app';
@@ -104,10 +104,16 @@ const Login = () => {
           routeRedirect = '/app';
         } else if (userRole === 'Operator' || userRole === 'platform_operator') {
           roleMapped = ROLES.PLATFORM_OPERATOR;
-          routeRedirect = '/app/conversations';
-        } else if (userRole === 'Front Desk') {
-          roleMapped = ROLES.MANAGER;
-          routeRedirect = '/app/takeover-queue';
+          routeRedirect = '/app';
+        } else if (userRole === 'Front Desk' || userRole === 'front_office' || userRole === 'Front Office') {
+          roleMapped = ROLES.FRONT_OFFICE;
+          routeRedirect = '/app';
+        } else if (userRole === 'Housekeeping' || userRole === 'Housekeeping Manager') {
+          roleMapped = ROLES.HOUSEKEEPING_MANAGER;
+          routeRedirect = '/app';
+        } else if (userRole === 'Maintenance' || userRole === 'Maintenance Manager') {
+          roleMapped = ROLES.MAINTENANCE_MANAGER;
+          routeRedirect = '/app';
         } else if (userRole === 'Support Agent') {
           roleMapped = ROLES.GUEST_ASSISTANT;
           routeRedirect = '/app/takeover-queue';
@@ -131,8 +137,8 @@ const Login = () => {
       const isSuperAdmin = lowerEmail.includes('superadmin') || lowerEmail.includes('super');
       const isHousekeeping = lowerEmail.includes('housekeeping') || lowerEmail.includes('hk');
       const isMaintenance = lowerEmail.includes('maintenance') || lowerEmail.includes('mnt');
-      const isFrontOffice = lowerEmail.includes('reception') || lowerEmail.includes('frontdesk') || lowerEmail.includes('front');
-      const isAdmin = lowerEmail.includes('admin') || lowerEmail.includes('manager');
+      const isFrontOffice = lowerEmail.includes('reception') || lowerEmail.includes('frontdesk') || lowerEmail.includes('front') || lowerEmail.includes('anna');
+      const isAdmin = lowerEmail.includes('admin') || lowerEmail.includes('manager') || lowerEmail.includes('john');
       
       let mapped = ROLES.MANAGER;
       let redir = '/app';
@@ -142,13 +148,13 @@ const Login = () => {
         redir = '/app';
       } else if (isHousekeeping) {
         mapped = ROLES.HOUSEKEEPING_MANAGER;
-        redir = '/app/housekeeping';
+        redir = '/app';
       } else if (isMaintenance) {
         mapped = ROLES.MAINTENANCE_MANAGER;
-        redir = '/app/maintenance';
+        redir = '/app';
       } else if (isFrontOffice) {
         mapped = ROLES.FRONT_OFFICE;
-        redir = '/app/conversations';
+        redir = '/app';
       } else if (isAdmin) {
         mapped = ROLES.MANAGER;
         redir = '/app';

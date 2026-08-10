@@ -24,11 +24,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useApp, ROLES } from '../context/AppContext';
 import { SuperAdminControlCenter } from './super-admin/SuperAdminControlCenter';
+import FrontOffice from './FrontOffice';
+import HousekeepingDashboard from './HousekeepingDashboard';
+import MaintenanceDashboard from './MaintenanceDashboard';
 import { dashboardService } from '../services/dashboardService';
 import { API_BASE_URL } from '../config';
 
-const Dashboard = () => {
-  const { role, user } = useApp();
+const ManagerDashboardView = () => {
+  const { user } = useApp();
   const navigate = useNavigate();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
@@ -84,7 +87,6 @@ const Dashboard = () => {
   useEffect(() => {
     loadData();
   }, []);
-
 
   const triggerToast = (msg) => {
     setToastMessage(msg);
@@ -155,7 +157,7 @@ const Dashboard = () => {
             Good Morning, {managerName} 👋
           </h1>
           <p className="text-slate-500 font-medium text-xs sm:text-sm">
-            Front Office AI Briefing & Operational Control Center
+            Manager Briefing & Operational Control Center
           </p>
         </div>
 
@@ -173,11 +175,11 @@ const Dashboard = () => {
 
       {/* Today's Shift KPI Grid */}
       <div>
-        <h2 className="text-sm font-extrabold text-slate-400 uppercase tracking-widest font-mono mb-3">Today's Shift</h2>
+        <h2 className="text-sm font-extrabold text-slate-400 uppercase tracking-widest font-mono mb-3">Today's Shift Overview</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Arrivals */}
           <div 
-            onClick={() => navigate('/app/conversations')}
+            onClick={() => navigate('/app/front-office')}
             className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between hover:border-indigo-300 transition-all cursor-pointer group"
           >
             <div>
@@ -191,7 +193,7 @@ const Dashboard = () => {
 
           {/* Departures */}
           <div 
-            onClick={() => navigate('/app/conversations')}
+            onClick={() => navigate('/app/front-office')}
             className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between hover:border-indigo-300 transition-all cursor-pointer group"
           >
             <div>
@@ -288,13 +290,13 @@ const Dashboard = () => {
                     <div className="flex justify-end gap-2">
                       <button 
                         onClick={() => setIsEditingResponse(false)}
-                        className="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs font-bold transition-all"
+                        className="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs font-bold transition-all cursor-pointer"
                       >
                         Cancel
                       </button>
                       <button 
                         onClick={handleSaveModify}
-                        className="px-3 py-1.5 bg-[#6D4AFF] hover:bg-purple-700 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1"
+                        className="px-3 py-1.5 bg-[#6D4AFF] hover:bg-purple-700 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
                       >
                         <Check size={14} /> Save Response
                       </button>
@@ -344,8 +346,8 @@ const Dashboard = () => {
                 <Bot size={18} />
               </div>
               <div>
-                <h2 className="text-base font-bold text-white tracking-tight">🤖 AI Summary</h2>
-                <p className="text-[10px] text-indigo-200 font-medium">Automated daily operational highlights</p>
+                <h2 className="text-base font-bold text-white tracking-tight">🤖 AI Operational Summary</h2>
+                <p className="text-[10px] text-indigo-200 font-medium">Automated daily highlights across all departments</p>
               </div>
             </div>
 
@@ -428,24 +430,33 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Department Quick Access */}
+          {/* Department Quick Access Widget */}
           <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3">
             <div className="flex items-center gap-2 border-b border-slate-100 pb-2">
-              <Building2 size={16} className="text-indigo-600" />
-              <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Department Views</h2>
+              <Building2 size={16} className="text-[#6D4AFF]" />
+              <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Department Portals</h2>
             </div>
-            <div className="grid grid-cols-2 gap-2 text-xs font-bold">
+            <div className="grid grid-cols-1 gap-2 text-xs font-bold">
+              <button 
+                onClick={() => navigate('/app/front-office')}
+                className="p-2.5 bg-slate-50 hover:bg-purple-50 hover:text-[#6D4AFF] rounded-xl border border-slate-200 text-slate-700 transition-colors text-left flex items-center justify-between cursor-pointer"
+              >
+                <span>🏨 Front Office</span>
+                <span className="text-[10px] text-slate-400 font-normal">Check-in & Guests →</span>
+              </button>
               <button 
                 onClick={() => navigate('/app/housekeeping')}
-                className="p-2.5 bg-slate-50 hover:bg-purple-50 hover:text-[#6D4AFF] rounded-xl border border-slate-200 text-slate-700 transition-colors text-center"
+                className="p-2.5 bg-slate-50 hover:bg-purple-50 hover:text-[#6D4AFF] rounded-xl border border-slate-200 text-slate-700 transition-colors text-left flex items-center justify-between cursor-pointer"
               >
-                🧹 Housekeeping
+                <span>🧹 Housekeeping</span>
+                <span className="text-[10px] text-slate-400 font-normal">Cleaning Queue →</span>
               </button>
               <button 
                 onClick={() => navigate('/app/maintenance')}
-                className="p-2.5 bg-slate-50 hover:bg-purple-50 hover:text-[#6D4AFF] rounded-xl border border-slate-200 text-slate-700 transition-colors text-center"
+                className="p-2.5 bg-slate-50 hover:bg-purple-50 hover:text-[#6D4AFF] rounded-xl border border-slate-200 text-slate-700 transition-colors text-left flex items-center justify-between cursor-pointer"
               >
-                🔧 Maintenance
+                <span>🔧 Maintenance</span>
+                <span className="text-[10px] text-slate-400 font-normal">Work Orders →</span>
               </button>
             </div>
           </div>
@@ -456,6 +467,27 @@ const Dashboard = () => {
 
     </div>
   );
+};
+
+const Dashboard = () => {
+  const { role } = useApp();
+
+  // Smart Role Routing at /app
+  if (role === ROLES.SUPER_ADMIN) {
+    return <SuperAdminControlCenter />;
+  }
+  if (role === ROLES.FRONT_OFFICE) {
+    return <FrontOffice />;
+  }
+  if (role === ROLES.HOUSEKEEPING_MANAGER || role === ROLES.HOUSEKEEPING_STAFF) {
+    return <HousekeepingDashboard />;
+  }
+  if (role === ROLES.MAINTENANCE_MANAGER || role === ROLES.MAINTENANCE_STAFF) {
+    return <MaintenanceDashboard />;
+  }
+
+  // Manager / Admin default view
+  return <ManagerDashboardView />;
 };
 
 export default Dashboard;

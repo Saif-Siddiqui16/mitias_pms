@@ -9,7 +9,11 @@ import {
   X, 
   FileText, 
   CheckSquare,
-  AlertTriangle
+  AlertTriangle,
+  Phone,
+  Smartphone,
+  Radio,
+  HardHat
 } from 'lucide-react';
 import { maintenanceService } from '../services/maintenanceService';
 
@@ -52,6 +56,12 @@ export const MaintenanceDashboard = () => {
     );
   }
 
+  const activeStaffList = data.activeStaff || [
+    { id: "mnt-st-1", name: "Peter Hansen", role: "Maintenance Lead", phone: "+1 (555) 871-3401", extension: "Ext 301", specialty: "HVAC & Refrigeration", activeTickets: 3, status: "In Room 302", avatarColor: "bg-rose-600" },
+    { id: "mnt-st-2", name: "Mike Alvarez", role: "Senior Technician", phone: "+1 (555) 871-3402", extension: "Ext 302", specialty: "Plumbing & Electrical", activeTickets: 2, status: "Available", avatarColor: "bg-teal-600" },
+    { id: "mnt-st-3", name: "Carlos Gomez", role: "General Maintenance Tech", phone: "+1 (555) 871-3403", extension: "Ext 303", specialty: "Carpentry & Hardware", activeTickets: 1, status: "On Dispatch", avatarColor: "bg-amber-600" }
+  ];
+
   return (
     <div className="p-6 sm:p-8 space-y-6 bg-[#FAF9F6] min-h-screen text-slate-900 font-sans">
       
@@ -59,22 +69,29 @@ export const MaintenanceDashboard = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E7E4DD] pb-5">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-1 rounded-md bg-rose-50 border border-rose-200 text-rose-600 text-[10px] font-bold uppercase tracking-wider">
-              OPERATIONS CONSOLE
+            <span className="px-2.5 py-1 rounded-md bg-rose-50 border border-rose-200 text-rose-600 text-[10px] font-bold uppercase tracking-wider font-mono">
+              ENGINEERING & MAINTENANCE
             </span>
-            <span className="text-xs text-slate-400 font-medium">• No AI Enabled</span>
+            <span className="text-xs text-slate-400 font-medium font-mono">• Direct Dispatch</span>
           </div>
           <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight mt-1">
             Maintenance Dashboard
           </h1>
+          <p className="text-xs text-slate-500 font-medium">
+            Active work orders queue and on-duty technicians contact directory.
+          </p>
         </div>
-        <button
-          onClick={loadData}
-          className="self-start sm:self-auto px-4 py-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 transition-all flex items-center gap-2 shadow-sm cursor-pointer"
-        >
-          <RefreshCw size={14} className="text-rose-600" />
-          Refresh Operations
-        </button>
+
+        {/* Central Hotline Mobile Badge */}
+        <div className="flex items-center gap-3 bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
+          <div className="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold">
+            <Radio size={20} className="animate-pulse" />
+          </div>
+          <div className="text-left">
+            <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest block font-mono">Maintenance Central Phone</span>
+            <span className="text-xs font-extrabold text-slate-900 font-mono block">{data.hotlineNumber || "+1 (555) 871-3400"}</span>
+          </div>
+        </div>
       </div>
 
       {/* Metrics Row */}
@@ -194,9 +211,62 @@ export const MaintenanceDashboard = () => {
 
         </div>
 
-        {/* Right Side - Highlighted Work Order Card */}
+        {/* Right Side - On-Duty Technicians Directory with Telephones & Highlighted Ticket */}
         <div className="space-y-6">
-          <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4">
+          
+          {/* On-Duty Maintenance Technicians Directory with Telephones */}
+          <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4 text-left">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-2">
+                <Smartphone className="text-rose-600" size={18} />
+                <h2 className="text-base font-bold text-slate-900">On-Duty Technicians</h2>
+              </div>
+              <span className="text-[10px] font-extrabold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md font-mono">
+                {activeStaffList.length} Technicians
+              </span>
+            </div>
+            
+            <p className="text-[11px] text-slate-500 font-medium leading-relaxed">
+              Active engineering staff reachable by direct phone for immediate maintenance dispatch:
+            </p>
+
+            <div className="space-y-3">
+              {activeStaffList.map((st) => (
+                <div key={st.id} className="p-3 bg-slate-50/80 hover:bg-rose-50/30 rounded-xl border border-slate-200/80 transition-colors space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <div className={`w-7 h-7 rounded-lg ${st.avatarColor || 'bg-rose-600'} text-white flex items-center justify-center text-xs font-bold font-mono`}>
+                        {st.name.split(' ').map(n => n[0]).join('')}
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-bold text-slate-900 leading-tight">{st.name}</h4>
+                        <span className="text-[10px] text-slate-500 font-medium block">{st.specialty}</span>
+                      </div>
+                    </div>
+                    <span className="text-[9px] font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">
+                      {st.status}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-1 border-t border-slate-200/60 text-xs">
+                    <div className="flex items-center gap-1 text-slate-600 font-mono font-semibold text-[11px]">
+                      <Phone size={12} className="text-rose-600" />
+                      <span>{st.phone}</span>
+                    </div>
+                    <a
+                      href={`tel:${st.phone}`}
+                      className="px-2.5 py-1 bg-white hover:bg-rose-600 hover:text-white text-slate-700 border border-slate-200 rounded-lg text-[10px] font-bold font-mono transition-colors shadow-xs"
+                    >
+                      Call Tech
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Featured Room 302 High Priority Card */}
+          <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4 text-left">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <span className="text-xs font-bold text-rose-600 uppercase tracking-wider flex items-center gap-1.5">
                 <AlertTriangle size={14} /> High Priority Ticket
@@ -213,8 +283,8 @@ export const MaintenanceDashboard = () => {
 
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                <span className="text-[9px] font-bold uppercase text-slate-400 block">Assigned Technician</span>
-                <span className="font-bold text-slate-800 text-xs mt-0.5 block">Peter</span>
+                <span className="text-[9px] font-bold uppercase text-slate-400 block">Assigned Tech</span>
+                <span className="font-bold text-slate-800 text-xs mt-0.5 block">Peter Hansen</span>
               </div>
               <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
                 <span className="text-[9px] font-bold uppercase text-slate-400 block">Est. Repair Time</span>

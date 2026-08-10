@@ -46,13 +46,23 @@ export const initialHousekeepingData = {
   dndRooms: 5,
   vipRooms: 2,
 
+  hotlineNumber: "+1 (555) 468-7300",
+  hotlineName: "Housekeeping Central Mobile Dispatch",
+
+  activeStaff: [
+    { id: "hk-st-1", name: "Elena Rostova", role: "Housekeeping Supervisor", phone: "+1 (555) 468-7351", extension: "Ext 201", floor: "All Floors", activeRooms: 6, status: "Active (On Floor)", avatarColor: "bg-purple-600" },
+    { id: "hk-st-2", name: "Anna Vance", role: "Senior Housekeeper", phone: "+1 (555) 468-7352", extension: "Ext 202", floor: "Floor 3 & 4 (VIP Wing)", activeRooms: 4, status: "Active (Cleaning)", avatarColor: "bg-indigo-600" },
+    { id: "hk-st-3", name: "David Miller", role: "Housekeeper", phone: "+1 (555) 468-7353", extension: "Ext 203", floor: "Floor 3", activeRooms: 3, status: "Active (On Floor)", avatarColor: "bg-emerald-600" },
+    { id: "hk-st-4", name: "Maria Santos", role: "Housekeeper", phone: "+1 (555) 468-7354", extension: "Ext 204", floor: "Floor 2", activeRooms: 5, status: "On Break", avatarColor: "bg-amber-600" }
+  ],
+
   cleaningList: [
-    { id: "hk-301", roomNumber: "301", type: "Departure", status: "Cleaning", priority: "Normal", assignedTo: "Anna", floor: 3, notes: "Standard checkout clean" },
-    { id: "hk-305", roomNumber: "305", type: "Stayover", status: "To Clean", priority: "Normal", assignedTo: "David", floor: 3, notes: "Fresh towels requested" },
-    { id: "hk-307", roomNumber: "307", type: "VIP", status: "To Clean", priority: "High", assignedTo: "Anna", floor: 3, notes: "VIP arriving at 14:00. Extra fruit basket" },
-    { id: "hk-312", roomNumber: "312", type: "Deep Clean", status: "To Clean", priority: "High", assignedTo: "David", floor: 3, notes: "Monthly carpet deep clean" },
-    { id: "hk-401", roomNumber: "401", type: "Early Arrival", status: "To Clean", priority: "High", assignedTo: "Anna", floor: 4, notes: "Early arrival expected at 12:30" },
-    { id: "hk-205", roomNumber: "205", type: "Early Arrival", status: "Cleaning", priority: "Normal", assignedTo: "Elena", floor: 2, notes: "Guest requested 11:30 checkin" }
+    { id: "hk-301", roomNumber: "301", type: "Departure", status: "Cleaning", priority: "Normal", assignedTo: "Anna Vance", floor: 3, notes: "Standard checkout clean" },
+    { id: "hk-305", roomNumber: "305", type: "Stayover", status: "To Clean", priority: "Normal", assignedTo: "David Miller", floor: 3, notes: "Fresh towels requested" },
+    { id: "hk-307", roomNumber: "307", type: "VIP", status: "To Clean", priority: "High", assignedTo: "Anna Vance", floor: 3, notes: "VIP arriving at 14:00. Extra fruit basket" },
+    { id: "hk-312", roomNumber: "312", type: "Deep Clean", status: "To Clean", priority: "High", assignedTo: "David Miller", floor: 3, notes: "Monthly carpet deep clean" },
+    { id: "hk-401", roomNumber: "401", type: "Early Arrival", status: "To Clean", priority: "High", assignedTo: "Anna Vance", floor: 4, notes: "Early arrival expected at 12:30" },
+    { id: "hk-205", roomNumber: "205", type: "Early Arrival", status: "Cleaning", priority: "Normal", assignedTo: "Elena Rostova", floor: 2, notes: "Guest requested 11:30 checkin" }
   ],
 
   operationalAlerts: [
@@ -67,6 +77,15 @@ export const initialMaintenanceData = {
   urgentTickets: 2,
   completedToday: 7,
 
+  hotlineNumber: "+1 (555) 871-3400",
+  hotlineName: "Engineering & Maintenance Dispatch",
+
+  activeStaff: [
+    { id: "mnt-st-1", name: "Peter Hansen", role: "Maintenance Lead", phone: "+1 (555) 871-3401", extension: "Ext 301", specialty: "HVAC & Refrigeration", activeTickets: 3, status: "In Room 302", avatarColor: "bg-rose-600" },
+    { id: "mnt-st-2", name: "Mike Alvarez", role: "Senior Technician", phone: "+1 (555) 871-3402", extension: "Ext 302", specialty: "Plumbing & Electrical", activeTickets: 2, status: "Available", avatarColor: "bg-teal-600" },
+    { id: "mnt-st-3", name: "Carlos Gomez", role: "General Maintenance Tech", phone: "+1 (555) 871-3403", extension: "Ext 303", specialty: "Carpentry & Hardware", activeTickets: 1, status: "On Dispatch", avatarColor: "bg-amber-600" }
+  ],
+
   tickets: [
     { 
       id: "mnt-102", 
@@ -75,7 +94,7 @@ export const initialMaintenanceData = {
       issue: "Air conditioning failure", 
       details: "Unit blowing warm air, compressor squeaking. Needs refrigerant check.",
       priority: "HIGH", 
-      assignedTo: "Peter", 
+      assignedTo: "Peter Hansen", 
       estimatedMinutes: 30,
       status: "OPEN",
       createdAt: "08:15 AM",
@@ -88,7 +107,7 @@ export const initialMaintenanceData = {
       issue: "Bathroom sink pipe leaking", 
       details: "Slow drip under drain joint.",
       priority: "MEDIUM", 
-      assignedTo: "Mike", 
+      assignedTo: "Mike Alvarez", 
       estimatedMinutes: 20,
       status: "IN_PROGRESS",
       createdAt: "09:30 AM",
@@ -101,7 +120,7 @@ export const initialMaintenanceData = {
       issue: "TV Remote battery replacement & pairing", 
       details: "Remote unresponsive.",
       priority: "LOW", 
-      assignedTo: "Peter", 
+      assignedTo: "Peter Hansen", 
       estimatedMinutes: 10,
       status: "OPEN",
       createdAt: "10:05 AM",
@@ -114,7 +133,7 @@ export const initialMaintenanceData = {
       issue: "Balcony door latch loose", 
       details: "Safety latch loose screws.",
       priority: "HIGH", 
-      assignedTo: "Mike", 
+      assignedTo: "Mike Alvarez", 
       estimatedMinutes: 25,
       status: "OPEN",
       createdAt: "10:45 AM",
@@ -127,7 +146,7 @@ export const initialMaintenanceData = {
       issue: "Mini-fridge not cooling", 
       details: "Power connected but temperature high.",
       priority: "MEDIUM", 
-      assignedTo: "Peter", 
+      assignedTo: "Carlos Gomez", 
       estimatedMinutes: 40,
       status: "OPEN",
       createdAt: "11:15 AM",

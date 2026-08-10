@@ -70,28 +70,30 @@ const TakeoverQueue = () => {
     scrollToBottom();
   }, [showCallModal]);
 
-  // Fetch escalated conversations on mount and every 10 seconds
+  // Fetch escalated conversations on mount and every 10 seconds directly from Backend
   useEffect(() => {
     const fetchQueue = async () => {
       try {
         const res = await fetch(`${API_BASE_URL}/api/conversations?status=escalated`);
         const json = await res.json();
-        if (json.success) {
+        if (json.success && Array.isArray(json.data)) {
           setQueue(prevQueue => {
             return json.data.map(conv => {
               const existing = prevQueue.find(item => item.id === conv.id);
               return {
                 ...conv,
-                messages: existing ? existing.messages : [],
+                messages: existing ? existing.messages : (conv.messages || []),
               };
             });
           });
           if (json.data.length > 0 && activeIdRef.current === null) {
             setActiveId(json.data[0].id);
           }
+        } else {
+          setQueue([]);
         }
       } catch (e) {
-        triggerToast(`Failed to load queue: ${e.message}`);
+        console.warn('Backend conversations fetch:', e.message);
       }
     };
     fetchQueue();
@@ -99,14 +101,14 @@ const TakeoverQueue = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // When active conversation changes, load its messages with a polling interval
+  // When active conversation changes, load its messages directly from backend
   useEffect(() => {
     if (!activeId) return;
     const loadMessages = async () => {
       try {
         const res = await fetch(`${API_BASE_URL}/api/conversations/${activeId}/messages`);
         const json = await res.json();
-        if (json.success) {
+        if (json.success && Array.isArray(json.messages)) {
           setQueue(prev => prev.map(item => item.id === activeId ? { 
             ...item, 
             messages: json.messages
@@ -120,7 +122,7 @@ const TakeoverQueue = () => {
           } : item));
         }
       } catch (e) {
-        // Fetch error handled silently
+        console.warn('Message fetch error:', e.message);
       }
     };
     loadMessages();

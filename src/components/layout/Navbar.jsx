@@ -127,8 +127,7 @@ export const Navbar = () => {
     { name: 'Dashboard', icon: LayoutDashboard, path: '/app', exact: true },
     { name: 'Conversations', icon: MessageSquare, path: '/app/conversations' },
     { name: 'Tasks', icon: UserCheck, path: '/app/takeover-queue' },
-    { name: 'Upsells', icon: TrendingUp, path: '/app/transactions' },
-    { isDropdown: true, name: 'Departments', options: frontOfficeDeptOptions },
+    { name: 'Settings', icon: SettingsIcon, path: '/app/settings' },
   ];
 
   const housekeepingNavItems = [
@@ -328,24 +327,7 @@ export const Navbar = () => {
                       </>
                     )}
 
-                    {isFrontOffice && (
-                      <>
-                        <div className="h-[1px] bg-slate-100 my-1" />
-                        <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-wider px-3 py-1 block">Quick Access</span>
-                        <button 
-                          onClick={() => { navigate('/app/housekeeping'); setShowProfile(false); }}
-                          className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-slate-700 hover:bg-purple-50 hover:text-[#6D4AFF] rounded-lg text-left font-medium cursor-pointer"
-                        >
-                          🧹 Housekeeping
-                        </button>
-                        <button 
-                          onClick={() => { navigate('/app/maintenance'); setShowProfile(false); }}
-                          className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-slate-700 hover:bg-purple-50 hover:text-[#6D4AFF] rounded-lg text-left font-medium cursor-pointer"
-                        >
-                          🔧 Maintenance
-                        </button>
-                      </>
-                    )}
+
 
                     <div className="h-[1px] bg-slate-100 my-1" />
                     <button 
